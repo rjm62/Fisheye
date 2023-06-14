@@ -133,7 +133,7 @@ async function getPhotographers() {
 
                    
                               // REMPLISSAGE DE CE CONTENEUR
-                    img.setAttribute("src",`assets/photographers/Sample/`+firstNameRecovery+`/`+mediasElementArray[j].image); //photos ou vidéo
+                    img.setAttribute("src",`assets/photographers/Sample Photos/`+firstNameRecovery+`/`+mediasElementArray[j].image); //photos ou vidéo
 
                     const figcaption = document.createElement("figcaption");   // création du conteneur information photo ou vidéo
                     figcaption.style.display = "flex";
