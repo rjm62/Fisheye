@@ -2,8 +2,8 @@
 var modalOpen = document.querySelector(".photograph-header > .contact_button"); 
 modalOpen.addEventListener("click", displayModal);
 
-//var modalClose = document.querySelector ("header > img");
-//modalClose.addEventListener("click", closeModal);
+var modalClose = document.querySelector ("#contact_modal, .modal > img");
+modalClose.addEventListener("click", closeModal);
 
 
 function displayModal() {
@@ -102,44 +102,44 @@ var border;
 
 
 // VARIABLES VERIFICATION ENTREES FORMULAIRE
-const first = document.querySelector("#first"); 
-const last = document.querySelector("#last");
-const email = document.querySelector("#email");
-const yourMessage = document.querySelector("yourMessage");
+const first = document.querySelector(".first"); 
+const last = document.querySelector(".last");
+const email = document.querySelector(".email");
+const yourMessage = document.querySelector(".yourMessage");
 
 // ECOUTE DES EVENEMENTS
 first.addEventListener("change", firstCheck);
 last.addEventListener("change", lastCheck);
 email.addEventListener("change", emailCheck);
-yourMessage.addEventListener("change", yourMessageCheck);
+//yourMessage.addEventListener("change", yourMessageCheck);
 
 
 
 // VERIFICATION DU PRENOM
 function firstCheck() {
-    check = document.forms["reserve"].elements["first"].value;
-    let regFirst=new RegExp("^[a-z][a-z\-_]+$", "i");
-    result=(regFirst.test(check));
-    resultsArray[0] = result;
-  
-    if (result===true) {
-      text = document.querySelector(".first");
-      text.dataset.error = "";
-      text.dataset.errorVisible = "false";  
-      border = document.querySelector("#first");
-      border.dataset.errorVisible ="false";
-      document.querySelector(".button").disabled=false;
-    } 
-    else {
-      text = document.querySelector(".first");
-      text.dataset.error = "Veuillez entrer un prénom (minimum 2 caractères)";
-      text.dataset.errorVisible = "true"; 
-      border = document.querySelector("#first");
-      border.dataset.errorVisible ="true";
-    }
+  check = document.forms["reserve"].elements["first"].value;
+  let regFirst=new RegExp("^[a-z][a-z\-_]+$", "i");
+  result=(regFirst.test(check));
+  resultsArray[0] = result;
+
+  if (result===true) {
+    text = document.querySelector(".first");
+    text.dataset.error = "";
+    text.dataset.errorVisible = "false";  
+    border = document.querySelector("#first");
+    border.dataset.errorVisible ="false";
+    document.querySelector(".button").disabled=false;
+  } 
+  else {
+    text = document.querySelector(".first");
+    text.dataset.error = "Veuillez entrer un prénom (minimum 2 caractères)";
+    text.dataset.errorVisible = "true"; 
+    border = document.querySelector("#first");
+    border.dataset.errorVisible ="true";
   }
+}
 
-
+           
 
 
  
