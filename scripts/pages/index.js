@@ -8,6 +8,7 @@ let medias = recovery["media"];
             photographers: [...photographers]})
         }
         
+
  async function displayData(photographers) {  
     const photographersSection = document.querySelector(".photographer_section");
     photographers.forEach((photographer) => {
@@ -20,12 +21,14 @@ let medias = recovery["media"];
     async function init() {
         // Récupère les datas des photographes
         const { photographers } = await getPhotographers();
+       
     displayData(photographers);   
     }
     
     init();
 
-
+ /* var toto = "photographers".id[0];
+   alert(toto);
 
     document.querySelector('a').onclick = function() {
         alert("titi");
@@ -33,8 +36,8 @@ let medias = recovery["media"];
         var elt = this;
         // id de l'element
         var idElt = this.getValue('id');
-        alert("toto");
-        };
+       
+        };*/
 
 
 
