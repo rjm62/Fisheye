@@ -27,6 +27,26 @@ modalContainer.style.top = "30px";
 
 
 
+                         // AJOUT NOM DU PHOTOGRAPHE
+ let photographName = document.createElement("div");
+ photographName.style.width ="100%";
+ photographName.style.height ="80px";
+ photographName.style.fontSize = "60px";
+  
+
+let header = document.querySelector(".header");
+let divHeader = document.createElement("div");
+divHeader.textContent = "coucou";
+header.appendChild(divHeader);
+
+
+
+
+//let namePosition = document.querySelector("form");
+ //modalContainer.insertBefore(photographName, namePosition);
+
+
+
       //  AJOUT DE ClASSES MANQUANTES (OU AFIN D'AIDER DANS LA CONCEPTION DU FORMULAIRE)
 
 const formContainer = document.querySelector("form"); 
@@ -136,6 +156,7 @@ function firstCheck() {
     text.dataset.errorVisible = "true"; 
     border = document.querySelector("#first");
     border.dataset.errorVisible ="true";
+    
   }
 }
 
