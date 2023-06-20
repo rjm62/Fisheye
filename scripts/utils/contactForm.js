@@ -1,8 +1,8 @@
-       // MISE EN PLACE ECOUTES POUR OUVERTURE ET FERMETURE MODAL
+// MISE EN PLACE ECOUTES POUR OUVERTURE ET FERMETURE MODAL
 var modalOpen = document.querySelector(".photograph-header > .contact_button"); 
 modalOpen.addEventListener("click", displayModal);
 
-var modalClose = document.querySelector ("#contact_modal, .modal > img");
+var modalClose = document.querySelector (".modal header img");
 modalClose.addEventListener("click", closeModal);
 
 
@@ -20,26 +20,17 @@ function closeModal() {
 const contactModalContainer = document.querySelector("#contact_modal");
 contactModalContainer.style.flexDirection = "row";
 contactModalContainer.style.justifyContent = "center";
-
 const modalContainer = document.querySelector(".modal");
 modalContainer.style.position = "absolute";
 modalContainer.style.top = "30px";
+modalContainer.style.width = "100%";
 
+               // diminution du texte dans le header de la modale + repositionnement du HEADER
+const headerModaH2Size = document.querySelector(".modal header h2");
+headerModaH2Size.style.fontSize = "54px";
 
-
-                         // AJOUT NOM DU PHOTOGRAPHE
- let photographName = document.createElement("div");
- photographName.style.width ="100%";
- photographName.style.height ="80px";
- photographName.style.fontSize = "60px";
-  
-
-let header = document.querySelector(".header");
-let divHeader = document.createElement("div");
-divHeader.textContent = "coucou";
-header.appendChild(divHeader);
-
-
+const paddingTopHeader = document.querySelector(".modal");
+paddingTopHeader.style.paddingTop = "0";
 
 
 //let namePosition = document.querySelector("form");
@@ -55,40 +46,86 @@ let classForFirst = formContainer.firstElementChild;  // ajout d'une class sur l
 classForFirst.className = "formData"+" "+"first";
 
 
-              // AJOUT DES CHAMPS MANQUANTS
+              // MODIFICATION CHAMPS PRENOM ET AJOUT DES CHAMPS MANQUANTS
+const firstDiv = document.querySelector("form > div");
+firstDiv.className = "formData first";
+const firstLabel = document.querySelector(".first label");
+firstLabel.for = "first";
+firstLabel.value = "first";
+firstLabel.textContent = "Prénom";
+const firstInput = document.querySelector(".first input");
+firstInput.className = "text-control";
+firstInput.type = "text";
+firstInput.id = "first";
+firstInput.name = "first";
+firstInput.style.marginBottom = "-20px";
+
+
 const lastDiv = document.createElement("div");       // ajout champ du nom
-lastDiv.className = "formData"+" "+"last"
+lastDiv.className = "formData last";
 const lastLabel = document.createElement("label");
-const lastInput = document.createElement("input");
-lastLabel.value = "nom";
+lastLabel.for = "last";
+lastLabel.value = "last";
 lastLabel.textContent = "Nom";
+const lastInput = document.createElement("input");
+lastInput.className = "text-control";
+lastInput.type = "text";
+lastInput.id = "last";
+lastInput.name = "last";
+lastInput.style.marginBottom = "-20px";
 lastDiv.appendChild(lastLabel);
 lastDiv.appendChild(lastInput);
 let modalButton = document.querySelector("form > button");
 formContainer.insertBefore(lastDiv, modalButton);
 
 const emailDiv = document.createElement("div");       // ajout champ de l'email
-emailDiv.className = "formData"+" "+"email";
+emailDiv.className = "formData email";
 const emailLabel = document.createElement("label");
-const emailInput = document.createElement("input");
+emailLabel.for = "email";
 emailLabel.value = "email";
 emailLabel.textContent = "Email";
+const emailInput = document.createElement("input");
+emailInput.className = "text-control";
+emailInput.type ="email";
+emailInput.id = "email";
+emailInput.name = "email";
+emailInput.style.marginBottom = "-20px";
 emailDiv.appendChild(emailLabel);
 emailDiv.appendChild(emailInput);
 formContainer.insertBefore(emailDiv, modalButton);
 
 const yourMessageDiv = document.createElement("div");     // ajout champ pour laisser un message
-yourMessageDiv.className = "formData"+" "+"yourMessage";
+yourMessageDiv.className = "formData yourMessage";
 const yourMessageLabel = document.createElement("label");
-const yourMessageInput = document.createElement("input");
-yourMessageInput.style.height ="250px";
+yourMessageLabel.for = "yourMessage"
 yourMessageLabel.value = "yourMessage";
 yourMessageLabel.textContent = "Votre message";
+const yourMessageInput = document.createElement("textarea");
+yourMessageInput.className = "text-control_message";
+yourMessageInput.type = "textarea";
+yourMessageInput.id = "yourMessage";
+yourMessageInput.name = "yourMessage";
+yourMessageInput.style.height = "170px";
+yourMessageInput.style.borderRadius = "5px"
+yourMessageInput.rows = "4";
+yourMessageInput.cols = "43";
+yourMessageInput.style.resize = "none";        // resize à "none", empêche l'utilisateur d'agrandir la fenêtre 
 yourMessageDiv.appendChild(yourMessageLabel);
 yourMessageDiv.appendChild(yourMessageInput);
 formContainer.appendChild(yourMessageDiv);
 formContainer.insertBefore(yourMessageDiv, modalButton);
 
+
+
+const formSize = document.querySelectorAll(".text-control");
+console.log(formSize);
+for(let i =0; i<formSize.length; i++) {
+  formSize[i].style.fontSize = "40px";
+  console.log("ok");
+}
+
+const formSizeMessage = document.querySelector(".text-control_message");
+formSizeMessage.style.fontSize = "24.5px";
 /*
 
 // CREATION DU SELECTEUR  DATA-ERROR
@@ -131,12 +168,12 @@ const yourMessage = document.querySelector(".yourMessage");
 first.addEventListener("change", firstCheck);
 last.addEventListener("change", lastCheck);
 email.addEventListener("change", emailCheck);
-//yourMessage.addEventListener("change", yourMessageCheck);
+yourMessage.addEventListener("change", yourMessageCheck);
 
 
 
 // VERIFICATION DU PRENOM
-function firstCheck() {
+/*function firstCheck() {
   check = document.forms["reserve"].elements["first"].value;
   let regFirst=new RegExp("^[a-z][a-z\-_]+$", "i");
   result=(regFirst.test(check));
@@ -158,9 +195,29 @@ function firstCheck() {
     border.dataset.errorVisible ="true";
     
   }
+}*/
+
+const formName = document.querySelector("form");
+formName.name = "modalForm";
+formName.action = "photographer.html";
+formName.method = "get";
+
+function firstCheck() {
+const firstField = document.forms["modalForm"].elements["first"].value; 
+console.log(firstField);     
 }
 
-           
+function lastCheck() {
+  const lastField = document.forms["modalForm"].elements["last"].value; 
+  console.log(lastField);     
+  }
 
+function emailCheck() {
+  const emailField = document.forms["modalForm"].elements["email"].value; 
+  console.log(emailField);     
+  }
 
- 
+ function yourMessageCheck() {
+  const yourMessageField = document.forms["modalForm"].elements["yourMessage"].value; 
+  console.log(yourMessageField);     
+ }

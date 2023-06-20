@@ -11,9 +11,7 @@ async function init() {
     // Récupère les datas des photographes
     const {photographers} = await getPhotographers();
     getHeaderCard(photographers[0]);
-    var zouzou = photographers[0];
-    console.log (zouzou);
-    getMediasCard(photographers[1], zouzou);
+    getMediasCard(photographers[1], photographers[0]);
     
 }
         
@@ -27,7 +25,7 @@ for(let i=0; i<photographersData.length; i++) {
     let photographElementsArray = photographersData[i];
     let photographerElement =photographElementsArray.id;
     if(photographerElement==photographerId){
-        const photographHeader = document.querySelector(".photograph-header") //parametre du conteneur HEADER
+        const photographHeader = document.querySelector(".photograph-header"); //parametre du conteneur HEADER
         photographHeader.style.display = "flex";
         photographHeader.style.justifyContent = "space-between";
         photographHeader.style.paddingLeft = "70px";
@@ -48,6 +46,19 @@ for(let i=0; i<photographersData.length; i++) {
         name.style.color = "#D3573C"
         name.style.marginBottom = "0"
         name.style.margin ="0";
+
+        const modal = document.querySelector(".modal");             // ajout du nom également dans la modale
+        const nameInForm = document.createElement("P");
+        nameInForm.style.display = "flex";
+        nameInForm.style.width = "100%";
+        nameInForm.style.paddingLeft = "0";
+        nameInForm.style.fontSize = "54px";
+        nameInForm.style.marginTop = "0";
+        nameInForm.textContent = (photographElementsArray.name);
+        const form = document.querySelector("form");
+        modal.insertBefore(nameInForm, form);
+
+
         
 
         const pCityCountry = document.createElement('p');          // ajout de sa situation géographique
@@ -82,12 +93,16 @@ for(let i=0; i<photographersData.length; i++) {
 
     }
 }
+
+
+           // FIN DE LA PARTIE REALISATION DU HEADER
+
+
                     // MISE EN PLACE DES PHOTOS DU PHOTOGRAPHE
 async function getMediasCard(mediasData,forDayPriceData) {
     const {id, photographersId, title, image,video,likes,date,price} = mediasData;
     var mediasElementArray = mediasData 
     var forDayPrice = forDayPriceData;
-    console.log(forDayPrice);
     var photographerId = window.location.search.split("?").join("");
 
                     // RECUPERATION PRENOM DU PHOTOGRAPHE POUR OUVERTURE DE SON DOSSIER MEDIA
@@ -112,38 +127,40 @@ async function getMediasCard(mediasData,forDayPriceData) {
     photograpMedia.style.marginTop = "70px";
     photograpMedia.style.marginRight = "100px";
 
+    const main= document.querySelector("#main");
+    main.appendChild(photograpMedia);
 
     let likesSum = 0;
     let likesToAdd = 0;
     for(let j=0; j<mediasElementArray.length; j++) {
         if(mediasElementArray[j].photographerId == photographerId) {
-            const mediaCards = document.createElement("div");
+            const mediaCards = document.createElement("div");  // création de chaque carte (comprenend photo et descriptif)
             mediaCards.className ="mediacards";
             mediaCards.style.display = "flex";
             mediaCards.style.flexDirection = "column"
             mediaCards.style.width ="100%"
             mediaCards.style.height ="400px"
             const img = document.createElement("img");
-            //const video = document.createElement("video");
+            const video = document.createElement("video");
             
             img.style.width="100%";
             img.style.height= "350px";
             img.style.objectFit = "cover";
             img.style.marginRight = "0";
-            /*
+            
             video.style.width = "100%";
             video.style.height= "350px";
             video.style.objectFit = "cover";
             video.style.marginRight = "0";
-      */
-      
-
-//console.log (typeof mediasElementArray[j]["video"]);
-
-
-                        // REMPLISSAGE DE CE CONTENEUR
-            img.setAttribute("src",`assets/photographers/Sample Photos/`+firstNameRecovery+`/`+mediasElementArray[j].image); //photos
-            //video.setAttribute("src",`assets/photographers/Sample Photos/`+firstNameRecovery+`/`+mediasElementArray[j].video);//video
+                            
+            if(mediasElementArray[j].image!=undefined) {     // définir si photo ou video et insertion de l'élément trouvé 
+                img.setAttribute("src",`assets/photographers/Sample Photos/`+firstNameRecovery+`/`+mediasElementArray[j].image);
+                mediaCards.appendChild(img);
+            }
+                else {
+                    video.setAttribute("src",`assets/photographers/Sample Photos/`+firstNameRecovery+`/`+mediasElementArray[j].video);
+                    mediaCards.appendChild(video);
+                }
             
             const figcaption = document.createElement("figcaption");   // création du conteneur information photo ou vidéo
             figcaption.style.display = "flex";
@@ -184,8 +201,6 @@ async function getMediasCard(mediasData,forDayPriceData) {
             heart.style.color = "#901C1C";
             
             heartContainer.appendChild(heart);                            // intégration des "enfants" dans les "parents"
-            mediaCards.appendChild(img);
-            //mediaCards.appendChild(video);
             likesContainer.appendChild(likesNumber);
 
             
@@ -194,8 +209,8 @@ async function getMediasCard(mediasData,forDayPriceData) {
             figcaption.append(likesContainer);
             mediaCards.append(figcaption);
             photograpMedia.appendChild(mediaCards);
-            const main= document.querySelector("main");
-            main.appendChild(photograpMedia);
+           // const main= document.querySelector("#main");
+           // main.appendChild(photograpMedia);
 
             //  recupération du prix à la journée du photographe
             let recoveryPhotographerId = mediasElementArray[j].photographerId;
@@ -205,13 +220,55 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
                 if (foundPhotographerNumber==recoveryPhotographerId) {
                 var dayPrice = forDayPrice[k].price;
-                console.log(foundPhotographerNumber);
-                console.log(dayPrice);
-                    
                 }
             }
         }       
     }
+
+/*
+    const bodySize2 = document.querySelector("body");
+    bodySize2.style.maxWidth ="1440px";
+    bodySize2.style.margin = "auto";
+    bodySize2.style.boxSizing ="border box";
+    bodySize2.style.width = "100%";
+
+    const wrap3 = document.querySelector(".photograph-header");
+    wrap3.style.flexWrap = "wrap";
+
+    //const wrap2 = document.querySelector(".photograph-media");
+    //wrap2.style.flexWrap = "wrap";
+
+    const screenSize3 = window.matchMedia( '(min-width : 1024px)' );
+    screenSize3.addEventListener('change', tablette2); 
+        function tablette2(e) {
+          const changeScreenSize3 = document.querySelector(".photographer-media");
+          if(e.matches===false) {
+              console.log(e.matches);
+        changeScreenSize3.style.gridTemplateColumns ="1fr 1fr";
+          }
+          else {
+              console.log(e.matches);
+        changeScreenSize3.style.gridTemplateColumns ="1fr 1fr 1fr";
+          }
+         }
+    
+    const screenSize4 = window.matchMedia( '(min-width : 720px)' );
+    screenSize4.addEventListener('change', mobile2);
+        function mobile2(e) {
+          const changeScreenSize4 = document.querySelector(".photographer-media");
+          if(e.matches===false) {
+        changeScreenSize4.style.gridTemplateColumns ="1fr";
+          }
+          else {
+        changeScreenSize4.style.gridTemplateColumns ="1fr 1fr";
+          }
+        }
+
+
+
+*/
+
+
 
                        // creation du conteneur de bas de page avec nombre de "likes" et coût à la jounée.
          const totalLikesAndTarif = document.createElement("totalLikesAndTarif");
@@ -253,8 +310,10 @@ async function getMediasCard(mediasData,forDayPriceData) {
         document.querySelector("#main").appendChild(totalLikesAndTarif);  // intégration de ce conteneur dans "main"
 
                           // fin de ce conteneur
+                  
 }
-var boubou = init();
+
+init();
 
 
 
@@ -299,6 +358,92 @@ async function  heartCount(event) {
         newQuantity= parseInt(newQuantity) - un;
         recoveryQuantity.textContent = newQuantity;
     }
-}
-                        // FIN DE CETTE PARTIE
-                   
+}                        // FIN DE CETTE PARTIE
+                        
+
+
+         // REALISATION DE LA DIV DE "TRI PAR POPULARITE ( "TITRE ET DATE" )
+const divSort = document.createElement("div");       // création div générale
+divSort.style.display = "flex";
+divSort.style.justifyContent = "space between";
+divSort.style.marginTop = "20px"
+divSort.style.marginLeft = "100px"
+divSort.style.alignItems ="center";
+divSort.style.width = "500px";
+divSort.style.height = "40px";
+divSort.style.fontWeight = "bold";
+
+const comment = document.createElement("p");        // creation de "p" pour texte: "Trier par"
+comment.textContent = "Trier par";
+comment.style.paddingRight = "30px"
+
+const divPopularity = document.createElement("div");
+divPopularity.style.display = "flex";
+divPopularity.style.justifyContent = "space-around";
+divPopularity.style.alignItems = "center";
+divPopularity.style.width = "180px"
+divPopularity.style.backgroundColor = "#901C1C";
+divPopularity.style.color = "white";
+divPopularity.style.borderRadius = "5px";
+
+const sortChoice = document.createElement("p");
+sortChoice.style.display ="flex";
+sortChoice.style.justifyContent ="center"
+sortChoice.style.width = "70%";
+sortChoice.textContent = "Popularité";
+
+const openIcon = document.createElement("li");
+openIcon.style.display = "flex";
+openIcon.style.justifyContent ="center"
+openIcon.style.width = "30%";
+openIcon.className ="fa-solid fa-chevron-down"
+// pour apres: "fa-sharp fa-solid fa-chevron-up"
+
+
+
+divPopularity.appendChild(sortChoice);
+divPopularity.appendChild(openIcon);
+divSort.appendChild(comment);
+divSort.appendChild(divPopularity);
+document.querySelector("#main").appendChild(divSort);
+
+
+
+
+const bodySize2 = document.querySelector("body");
+bodySize2.style.maxWidth ="1440px";
+bodySize2.style.margin = "auto";
+bodySize2.style.boxSizing ="border box";
+bodySize2.style.width = "100%";
+
+const wrap3 = document.querySelector(".photograph-header");
+wrap3.style.flexWrap = "wrap";
+
+//const wrap2 = document.querySelector(".photograph-media");
+//wrap2.style.flexWrap = "wrap";
+
+const screenSize3 = window.matchMedia( '(min-width : 1024px)' );
+screenSize3.addEventListener('change', tablette2); 
+    function tablette2(e) {
+      const changeScreenSize3 = document.querySelector(".photographer-media");
+      if(e.matches===false) {
+          console.log(e.matches);
+    changeScreenSize3.style.gridTemplateColumns ="1fr 1fr";
+      }
+      else {
+          console.log(e.matches);
+    changeScreenSize3.style.gridTemplateColumns ="1fr 1fr 1fr";
+      }
+     }
+
+const screenSize4 = window.matchMedia( '(min-width : 720px)' );
+screenSize4.addEventListener('change', mobile2);
+    function mobile2(e) {
+      const changeScreenSize4 = document.querySelector(".photographer-media");
+      if(e.matches===false) {
+    changeScreenSize4.style.gridTemplateColumns ="1fr";
+      }
+      else {
+    changeScreenSize4.style.gridTemplateColumns ="1fr 1fr";
+      }
+    }
