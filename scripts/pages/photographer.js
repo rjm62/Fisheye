@@ -27,6 +27,9 @@ for(let i=0; i<photographersData.length; i++) {
     if(photographerElement==photographerId){
         const photographHeader = document.querySelector(".photograph-header"); //parametre du conteneur HEADER
         photographHeader.style.display = "flex";
+        //photographHeader.style.backgroundColor = "red";
+        //photographHeader.style.maxWidth = "1440px";
+        //photographHeader.style.width = "100%";
         photographHeader.style.justifyContent = "space-between";
         photographHeader.style.paddingLeft = "70px";
         photographHeader.style.paddingRight = "70px";
@@ -121,8 +124,11 @@ async function getMediasCard(mediasData,forDayPriceData) {
     photograpMedia.style.display = "grid";
     photograpMedia.style.gridTemplateColumns ="1fr 1fr 1fr";
     photograpMedia.style.gap = "70px";
-    photograpMedia.style.justifyContent ="space-between";
-    photograpMedia.style.alignItems ="space-between";
+    //photograpMedia.style.width = "100%";
+    //photograpMedia.style.minWidth = "500px";
+    //photograpMedia.style.maxWidth = "1250px";
+    //photograpMedia.style.justifyContent ="space-between";
+    //photograpMedia.style.alignItems ="space-between";
     photograpMedia.style.marginLeft ="100px";
     photograpMedia.style.marginTop = "70px";
     photograpMedia.style.marginRight = "100px";
@@ -130,6 +136,24 @@ async function getMediasCard(mediasData,forDayPriceData) {
     const main= document.querySelector("#main");
     main.appendChild(photograpMedia);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     let likesSum = 0;
     let likesToAdd = 0;
     for(let j=0; j<mediasElementArray.length; j++) {
@@ -138,7 +162,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
             mediaCards.className ="mediacards";
             mediaCards.style.display = "flex";
             mediaCards.style.flexDirection = "column"
-            mediaCards.style.width ="100%"
+            //mediaCards.style.width ="100%"
             mediaCards.style.height ="400px"
             const img = document.createElement("img");
             const video = document.createElement("video");
@@ -205,9 +229,9 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
             
             likesContainer.appendChild(heartContainer);
-            figcaption.append(mediaTitle);
-            figcaption.append(likesContainer);
-            mediaCards.append(figcaption);
+            figcaption.appendChild(mediaTitle);
+            figcaption.appendChild(likesContainer);
+            mediaCards.appendChild(figcaption);
             photograpMedia.appendChild(mediaCards);
            // const main= document.querySelector("#main");
            // main.appendChild(photograpMedia);
@@ -270,7 +294,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
 
 
-                       // creation du conteneur de bas de page avec nombre de "likes" et coût à la jounée.
+                      // creation du conteneur de bas de page avec nombre de "likes" et coût à la jounée.
          const totalLikesAndTarif = document.createElement("totalLikesAndTarif");
          totalLikesAndTarif.style.display = "flex";
          totalLikesAndTarif.style. justifyContent = "space-between";
@@ -309,7 +333,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
         
         document.querySelector("#main").appendChild(totalLikesAndTarif);  // intégration de ce conteneur dans "main"
 
-                          // fin de ce conteneur
+                         // fin de ce conteneur
                   
 }
 
@@ -399,8 +423,6 @@ openIcon.style.width = "30%";
 openIcon.className ="fa-solid fa-chevron-down"
 // pour apres: "fa-sharp fa-solid fa-chevron-up"
 
-
-
 divPopularity.appendChild(sortChoice);
 divPopularity.appendChild(openIcon);
 divSort.appendChild(comment);
@@ -409,12 +431,33 @@ document.querySelector("#main").appendChild(divSort);
 
 
 
+ 
 
+        // CHANGEMENT DE L'ASPECT DU BOUTON "CONTACTEZ-MOI" AU SURVOL DE LA SOURIS
+const buttonMouseover = document.querySelector(".contact_button");
+    buttonMouseover.addEventListener("mouseover", function(){
+    buttonMouseover.style.backgroundColor="#D3573C";
+    buttonMouseover.style.color="black"});
+
+const buttonMouseout = document.querySelector(".contact_button");
+buttonMouseout.addEventListener("mouseout", function(){
+    buttonMouseout.style.backgroundColor="#901C1C";
+    buttonMouseout.style.color="white"});
+
+
+        // RETOUR A LA PAGE PRINCIPALE EN CLIQUANT SUR LE LOGO
+const addClassName = document.querySelector("body header");
+const mainPageReturn = document.querySelector("body header img");  
+mainPageReturn.style.cursor ="pointer" ;    
+mainPageReturn.addEventListener("click", function(){history.back()});
+
+
+
+        //  MODULE POUR RENDRE RESPONSIVE LA PAGE
 const bodySize2 = document.querySelector("body");
 bodySize2.style.maxWidth ="1440px";
 bodySize2.style.margin = "auto";
 bodySize2.style.boxSizing ="border box";
-bodySize2.style.width = "100%";
 
 const wrap3 = document.querySelector(".photograph-header");
 wrap3.style.flexWrap = "wrap";
@@ -425,21 +468,24 @@ wrap3.style.flexWrap = "wrap";
 const screenSize3 = window.matchMedia( '(min-width : 1024px)' );
 screenSize3.addEventListener('change', tablette2); 
     function tablette2(e) {
-      const changeScreenSize3 = document.querySelector(".photographer-media");
+      const changeScreenSize3 = document.querySelector(".photograph-media");
+      console.log(changeScreenSize3);
       if(e.matches===false) {
           console.log(e.matches);
+          changeScreenSize3.style.backgroundColor = "yellow";
     changeScreenSize3.style.gridTemplateColumns ="1fr 1fr";
       }
       else {
           console.log(e.matches);
+          changeScreenSize3.style.backgroundColor = "white"; 
     changeScreenSize3.style.gridTemplateColumns ="1fr 1fr 1fr";
       }
      }
 
-const screenSize4 = window.matchMedia( '(min-width : 720px)' );
+const screenSize4 = window.matchMedia( '(min-width : 820px)' );
 screenSize4.addEventListener('change', mobile2);
     function mobile2(e) {
-      const changeScreenSize4 = document.querySelector(".photographer-media");
+      const changeScreenSize4 = document.querySelector(".photograph-media");
       if(e.matches===false) {
     changeScreenSize4.style.gridTemplateColumns ="1fr";
       }
@@ -447,3 +493,5 @@ screenSize4.addEventListener('change', mobile2);
     changeScreenSize4.style.gridTemplateColumns ="1fr 1fr";
       }
     }
+
+        

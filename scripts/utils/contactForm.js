@@ -125,7 +125,7 @@ for(let i =0; i<formSize.length; i++) {
 }
 
 const formSizeMessage = document.querySelector(".text-control_message");
-formSizeMessage.style.fontSize = "24.5px";
+formSizeMessage.style.fontSize = "1.9em";
 /*
 
 // CREATION DU SELECTEUR  DATA-ERROR
@@ -199,8 +199,8 @@ yourMessage.addEventListener("change", yourMessageCheck);
 
 const formName = document.querySelector("form");
 formName.name = "modalForm";
-formName.action = "photographer.html";
-formName.method = "get";
+formName.action = "#";
+formName.method = "post";
 
 function firstCheck() {
 const firstField = document.forms["modalForm"].elements["first"].value; 
@@ -210,14 +210,25 @@ console.log(firstField);
 function lastCheck() {
   const lastField = document.forms["modalForm"].elements["last"].value; 
   console.log(lastField);     
-  }
+}
 
 function emailCheck() {
   const emailField = document.forms["modalForm"].elements["email"].value; 
   console.log(emailField);     
-  }
+}
 
  function yourMessageCheck() {
   const yourMessageField = document.forms["modalForm"].elements["yourMessage"].value; 
   console.log(yourMessageField);     
- }
+}
+
+const formSend = document.querySelector("form button");
+formSend.addEventListener("click", send);
+
+function send() {
+  console.log(firstField); 
+  console.log(lastField); 
+  console.log(emailField);
+  console.log(yourMessageField); 
+  closeModal
+}
