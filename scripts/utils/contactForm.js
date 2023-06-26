@@ -33,10 +33,6 @@ const paddingTopHeader = document.querySelector(".modal");
 paddingTopHeader.style.paddingTop = "0";
 
 
-//let namePosition = document.querySelector("form");
- //modalContainer.insertBefore(photographName, namePosition);
-
-
 
       //  AJOUT DE ClASSES MANQUANTES (OU AFIN D'AIDER DANS LA CONCEPTION DU FORMULAIRE)
 
@@ -45,21 +41,24 @@ const formContainer = document.querySelector("form");
 let classForFirst = formContainer.firstElementChild;  // ajout d'une class sur la div du prénom
 classForFirst.className = "formData"+" "+"first";
 
-
-              // MODIFICATION CHAMPS PRENOM ET AJOUT DES CHAMPS MANQUANTS
-const firstDiv = document.querySelector("form > div");
+              // AJOUT DES CHAMPS DE TEXTE
+const firstDiv = document.createElement("div");       // ajout champ du prenom
 firstDiv.className = "formData first";
-const firstLabel = document.querySelector(".first label");
+const firstLabel = document.createElement("label");
 firstLabel.for = "first";
 firstLabel.value = "first";
 firstLabel.textContent = "Prénom";
-const firstInput = document.querySelector(".first input");
+const firstInput = document.createElement("input");
 firstInput.className = "text-control";
-firstInput.type = "text";
+firstInput.type = "first";
 firstInput.id = "first";
 firstInput.name = "first";
 firstInput.style.marginBottom = "-20px";
-
+firstDiv.appendChild(firstLabel);
+firstDiv.appendChild(firstInput);
+let modalButton = document.querySelector("form > button");
+formContainer.insertBefore(firstDiv, modalButton);
+  
 
 const lastDiv = document.createElement("div");       // ajout champ du nom
 lastDiv.className = "formData last";
@@ -75,7 +74,6 @@ lastInput.name = "last";
 lastInput.style.marginBottom = "-20px";
 lastDiv.appendChild(lastLabel);
 lastDiv.appendChild(lastInput);
-let modalButton = document.querySelector("form > button");
 formContainer.insertBefore(lastDiv, modalButton);
 
 const emailDiv = document.createElement("div");       // ajout champ de l'email
@@ -126,109 +124,109 @@ for(let i =0; i<formSize.length; i++) {
 
 const formSizeMessage = document.querySelector(".text-control_message");
 formSizeMessage.style.fontSize = "1.9em";
-/*
-
-// CREATION DU SELECTEUR  DATA-ERROR
-var dataError = document.createElement("formData[data-error]::after");
-dataError.style;Content = "attr[data-error]";
-dataError.style.fontSize = "1em";
-dataError.style.color = "#e54858";
-dataError.style.display = "block";
-dataError.style.marginTop = "7px";
-dataError.style.marginBottom = "7px";
-dataError.style.textAlign = "right";
-dataError.style.lineHeight = "0.3";
-dataError.style.opacity = "1";
-
-var essai = document.querySelector(".formData");
-essai.appendChild(dataError);
-
-
-*/
-
-
-
-
 
 // VARIABLES POUR VERIFICATION DES CHAMPS 
 var check;
-var result;
-var resultsArray =["firstValidationResult", "lastValidationResult", "emailValidationResult", "birthdateValidationResult"];
-var text;
-var border;
+var firstCheckResult;
+var lastCheckResult;
+var emailCheckResult;
+var messageCheckResult;
+var buttonCommentModif = document.querySelector(" form .contact_button")
 
 
-// VARIABLES VERIFICATION ENTREES FORMULAIRE
-const first = document.querySelector(".first"); 
-const last = document.querySelector(".last");
-const email = document.querySelector(".email");
-const yourMessage = document.querySelector(".yourMessage");
+var first = document.querySelector("#first"); 
+var last = document.querySelector("#last");
+var email = document.querySelector("#email");
+var yourMessage = document.querySelector("#yourMessage")
 
-// ECOUTE DES EVENEMENTS
 first.addEventListener("change", firstCheck);
 last.addEventListener("change", lastCheck);
 email.addEventListener("change", emailCheck);
 yourMessage.addEventListener("change", yourMessageCheck);
 
 
-
-// VERIFICATION DU PRENOM
-/*function firstCheck() {
-  check = document.forms["reserve"].elements["first"].value;
-  let regFirst=new RegExp("^[a-z][a-z\-_]+$", "i");
-  result=(regFirst.test(check));
-  resultsArray[0] = result;
-
-  if (result===true) {
-    text = document.querySelector(".first");
-    text.dataset.error = "";
-    text.dataset.errorVisible = "false";  
-    border = document.querySelector("#first");
-    border.dataset.errorVisible ="false";
-    document.querySelector(".button").disabled=false;
-  } 
-  else {
-    text = document.querySelector(".first");
-    text.dataset.error = "Veuillez entrer un prénom (minimum 2 caractères)";
-    text.dataset.errorVisible = "true"; 
-    border = document.querySelector("#first");
-    border.dataset.errorVisible ="true";
-    
+  function firstCheck() { 
+  let regFirst=new RegExp("^[a-z][a-z\-_]+$", "i");        //verification prénom
+  check = firstInput.value;
+  firstCheckResult=(regFirst.test(check));
+  if (firstCheckResult/1==1) {
+    firstLabel.style.color = "black";
+    firstLabel.textContent = "Prénom"
   }
-}*/
-
-const formName = document.querySelector("form");
-formName.name = "modalForm";
-formName.action = "#";
-formName.method = "post";
-
-function firstCheck() {
-const firstField = document.forms["modalForm"].elements["first"].value; 
-console.log(firstField);     
+  else {
+    firstLabel.style.color = "red";
+    firstLabel.textContent = "Prénom (au moins 2 caractères)"
+  }
 }
 
-function lastCheck() {
-  const lastField = document.forms["modalForm"].elements["last"].value; 
-  console.log(lastField);     
+  function lastCheck() {
+  let regLast=new RegExp("^[a-z][a-z\-_]+$", "i");        //verification prénom
+  check = lastInput.value;
+  lastCheckResult=(regLast.test(check));
+  if (lastCheckResult/1==1) {
+    lastLabel.style.color = "black";
+    lastLabel.textContent = "Nom"
+  }
+  else {
+    lastLabel.style.color = "red";
+    lastLabel.textContent = "Nom (au moins 2 caractères)"
+  }
 }
 
-function emailCheck() {
-  const emailField = document.forms["modalForm"].elements["email"].value; 
-  console.log(emailField);     
+
+  function emailCheck() {
+    let regEmail=new RegExp("^[a-z0-9\.\-_]+[a-z0-9]*@[a-z0-9]{2,}\.[a-z\.\-_]+[a-z\-_]{2,}$", "i");
+    check = emailInput.value;
+    emailCheckResult= (regEmail.test(check));
+    if (emailCheckResult/1==1) {
+      emailLabel.style.color = "black";
+      emailLabel.textContent = "Email" 
+    }
+    else {
+      emailLabel.style.color = "red";
+      emailLabel.textContent = "Email non valide"
+    }
+  }
+
+  function yourMessageCheck() {
+    
+  if (yourMessageInput.value!="") {
+    yourMessageLabel.style.color = "black";
+    yourMessageLabel.textContent = "Your message"
+    messageCheckResult = "1";
+  }
+  else {
+    yourMessageLabel.style.color = "red";
+    yourMessageLabel.textContent = "Merci de laisser un message";
+    messageCheckResult = "1";
+
+  }
 }
 
- function yourMessageCheck() {
-  const yourMessageField = document.forms["modalForm"].elements["yourMessage"].value; 
-  console.log(yourMessageField);     
+if (firstCheckResult/1==1 & lastCheckResult/1==1 & emailCheckResult/1==1 & messageCheckResult =="1" ) {
+  buttonCommentModif.textContent ="Envoyer";
 }
 
-const formSend = document.querySelector("form button");
+
+const formSend = document.getElementById("contact_button");
 formSend.addEventListener("click", send);
 
-function send() {
-  console.log(firstField); 
-  console.log(lastField); 
-  console.log(emailField);
-  console.log(yourMessageField); 
-  closeModal
+function send(event) {
+  //event.preventDefault();
+  
+event.preventDefault();
+
+  if (firstCheckResult/1==1 & lastCheckResult/1==1 & emailCheckResult/1==1 & messageCheckResult =="1") {
+    console.log("prénom:"+firstInput.value);
+    console.log("nom:"+lastInput.value); 
+    console.log("email:"+emailInput.value);
+    console.log("message:"+yourMessageInput.value);
+  }
+    else{
+      firstCheck();
+      lastCheck();
+      emailCheck();
+      yourMessageCheck();
+    }
+ 
 }
