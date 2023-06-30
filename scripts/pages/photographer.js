@@ -118,7 +118,9 @@ async function getMediasCard(mediasData,forDayPriceData) {
     }
 
                 // PARAMETRAGE DU CONTENEUR (POUR CARTES MEDIAS DU PHOTOGRAPHE)
-    const photograpMedia = document.createElement("div");
+    const photograpMedia = document.createElement("div"); 
+    photograpMedia.ariaLabel = "ici vous allez pouvoir découvrir la page de votre photographe sélectionné";
+
     photograpMedia.className = "photograph-media";
     photograpMedia.style.display = "grid";
     photograpMedia.style.gridTemplateColumns ="1fr 1fr 1fr";
@@ -156,6 +158,9 @@ async function getMediasCard(mediasData,forDayPriceData) {
     console.log(listeOrdonneeDate);
     document.querySelector(".photograph-media").innerHTML = "";    // effacement de la partie photos et videos du photographe
     genererMediaCards(listeOrdonneeDate1);                          // appel de la fonstion création des cartes photos
+    document.querySelector(".totalLikesAndTarif").innerHTML = "";
+    //document.querySelector(".divLikesAndHeart").innerHTML = "";
+    //document.querySelector(".likesTotal").innerHTML= "";
     });
 
     const titleEvenListener = document.querySelector(".titleSort");    // "ecoute" si click sur "titre" 
@@ -164,29 +169,40 @@ async function getMediasCard(mediasData,forDayPriceData) {
         for(let u=0; u<photographerArray.length; u++) {
             listeOrdonneeTitle.sort(function(a,b) {         // tri pour réaliser un tableau des titres du plus récent au plus ancien    
             return a.title.split(/\s*[\,]*\s*/).join("").localeCompare(b.title.split(" ").join(""));
-
             });
         } 
 
     document.querySelector(".photograph-media").innerHTML = "";   // effacement de la partie photos et videos du photographe
-                                                                  // appel de la fonstion création des cartes photos
-    genererMediaCards(listeOrdonneeTitle);
+    document.querySelector(".totalLikesAndTarif").innerHTML = "";
+    //document.querySelector(".divLikesAndHeart").innerHTML = "";
+    //document.querySelector(".likesTotal").innerHTML= "";
+    genererMediaCards(listeOrdonneeTitle);                                                              
     });
 
-        console.log(photographerArray);   
 //-------------------------------------------FIN DU MODULE DE TRI--------------------------------------    
 
 
     function genererMediaCards(elementsArray) {
-        let likesSum = 0;
-        let likesToAdd = 0;
+        var likesSum = 0;
+        var likesToAdd = 0;
     for(let j=0; j<elementsArray.length; j++) {
             const mediaCards = document.createElement("div");  // création de chaque carte (comprenend photo et descriptif)
             mediaCards.className ="mediacards";
             mediaCards.style.display = "flex";
             mediaCards.style.flexDirection = "column";
             const img = document.createElement("img");
+            img.addEventListener("click", function lightbox() {
+                let clickphoto = event.target;               
+                getexterieur(clickphoto , elementsArray);
+            });
+            img.style.cursor = "pointer";
+
             const video = document.createElement("video");
+             video.addEventListener("click", function lightbox() {
+                let clickvideo = event.target;               
+                getexterieur(clickvideo , elementsArray);
+            });
+            video.style.cursor = "pointer";
 
             img.style.width="100%";
             img.style.height= "350px";
@@ -216,6 +232,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
             const mediaTitle = document.createElement("p");                  // ajout du titre de la photo     
             mediaTitle.className = "mediaTitle";  
             mediaTitle.textContent = elementsArray[j].title;
+        
             
             const likesContainer = document.createElement("div");   // création du conteneur  pour nombre de "like"
             likesContainer.className = "likesContainer"+[j];
@@ -230,9 +247,16 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
             likesToAdd = elementsArray[j].likes;
             likesSum += likesToAdd;
+            console.log("suis là"+" "+likesSum);
 
             const heartContainer= document.createElement("div");            // ajout du coeur 
-            var retour = heartContainer.addEventListener("click", heartCount);    // mise des coeurs en écoute
+            heartContainer.ariaLabel = "likes";
+            heartContainer.addEventListener("click", function heartCount() {   //ecoute si clic sur coeur et analyse position 
+                let clickHeart = event.target;               
+                likesModified(clickHeart , elementsArray);     // appel de la fonction pour modification quantité, avec comme arguments
+                                                               // position événement et tableau des fiches du photographe
+
+            });    
             heartContainer.style.display = "flex";
             heartContainer.style.justifyContent = "center";
             heartContainer.style.alignItems = "center";
@@ -270,7 +294,8 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
 
                       // creation du conteneur de bas de page avec nombre de "likes" et coût à la jounée.
-         const totalLikesAndTarif = document.createElement("totalLikesAndTarif");
+         const totalLikesAndTarif = document.createElement("div");
+         totalLikesAndTarif.className = "totalLikesAndTarif";
          totalLikesAndTarif.style.display = "flex";
          totalLikesAndTarif.style. justifyContent = "space-between";
          totalLikesAndTarif.style.alignItems = "center";
@@ -286,13 +311,17 @@ async function getMediasCard(mediasData,forDayPriceData) {
          totalLikesAndTarif.style.right = "20px"
 
         const divLikesAndHeart = document.createElement("div");  //conteneur pour total des "likes" + icone du coeur (ci-dessous)
+        //divLikesAndHeart.className = "divLikesAndHeart";
         divLikesAndHeart.style.display = "flex";
         divLikesAndHeart.style.justifyContent = "center";
         divLikesAndHeart.style.alignItems = "center";
 
         const likesTotal = document.createElement("p");         // "p" pour total des "likes"
         likesTotal.className = "likesTotal";
+        likesTotal.innerHTML ="";
         likesTotal.textContent = likesSum;
+        console.log("entrée dans conteneur bas de page"+likesSum);
+        console.log(likesTotal.textContent);
         likesTotal.style.paddingRight = "4px";
         divLikesAndHeart.appendChild(likesTotal);
 
@@ -309,7 +338,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
         document.querySelector("#main").appendChild(totalLikesAndTarif);  // intégration de ce conteneur dans "main"
 
     }                              // fin de ce conteneur
-                  
+                
 }
 
 init();
@@ -317,51 +346,45 @@ init();
 
 
 
-           // RECUPERATION EMPLACEMENT COEUR CLIQUE ET MODIFICATION DU NOMBRE DE "LIKES" ET DU TOTAL en bas de l'ecran
-async function  heartCount(event) {
-    const reponse = await fetch('./data/photographers.json');
-    let recovery = await reponse.json();
-    let medias = recovery["media"];
-    console.log(medias);
-   
-    let ClickedHeartContainer = event.target;                 //  coeur cliqué
-    console.log(ClickedHeartContainer);
-    let listPosition = event.target.value; 
-  
-    console.log(listPosition);                                 // position dans la liste des "mediaCards" du photographes
-    let upParent1 = ClickedHeartContainer.parentNode;           // remonté d'un cran vers le parent juste au dessus
+     // FONCTION POUR RECUPERER L'EMPLACEMENT DU COEUR CLIQUE ET MODIFICATION DU NOMBRE DE "LIKES" ET DU TOTAL EN BAS DE L'ECRAN
+function likesModified(eventHeartClicked, photographHeartsArray) {
+            positionHeartClicked = eventHeartClicked.value;
+                  
+    let upParent1 = eventHeartClicked.parentNode;           // remonté d'un cran vers le parent juste au dessus
     let upParent2 = upParent1.parentNode;                       // remonté d'un cran supplémentaire vers parent du parent
     let likeHeartcontainer = upParent2.childNodes;              // recupération du conteneur enfant du grand parent
 
-
-    let originLikesNumber = medias[listPosition].likes;         // nombre de likes (récupéré dans le fichier medias de JSON)  
+    let originLikesNumber = photographHeartsArray[positionHeartClicked].likes; // nombre de likes (récupéré dans le fichier medias de JSON)  
     let actuallyLikesNumber = likeHeartcontainer[0].innerText;  // nombre de "likes" affiché sur la page
 
     console.log(originLikesNumber);
     console.log(actuallyLikesNumber);
     if(originLikesNumber==actuallyLikesNumber) {                // vérification entre Nbre de"likes" du fichier JSON et de la page affichée
         actuallyLikesNumber ++;                                 // Si égalité incrémentation
-        likeHeartcontainer[0].innerText =actuallyLikesNumber;   // et on affiche la nouvelle quantité 
+        likeHeartcontainer[0].innerHTML =actuallyLikesNumber;   // et on affiche la nouvelle quantité 
         ajoutAuTotal() ;                                        // appel de la fonction pour augmenter le total en bas de l'écran
     }
     else {
         actuallyLikesNumber--;                                 // sinon "inlikes"
-        likeHeartcontainer[0].innerText =actuallyLikesNumber;  // et on affiche la nouvelle quantité (soit 1 "like" de moins)
+        likeHeartcontainer[0].innerHTML =actuallyLikesNumber;  // et on affiche la nouvelle quantité (soit 1 "like" de moins)
         retryAuTotal() ;                                        // appel de la fonction pour diminuer le total en bas de l'écran
     }
-    async function ajoutAuTotal() {                            // fonction augmenter le total de "likes" en bas écran
-        let recoveryQuantity = document.querySelector(".likesTotal");    //récupération conteneur
-        let newQuantity = recoveryQuantity.textContent;                  //récupération quantité
-        un = 1;
-        newQuantity = parseInt(newQuantity) + un;                        //aumentation de 1
-        recoveryQuantity.textContent = newQuantity;                      // intégration de la nouvelle quantité dans le conteneur
+    async function ajoutAuTotal() {  // fonction augmenter le total de "likes" en bas écran                     
+        const recoveryQuantity = document.querySelector(".likesTotal");    //récupération conteneur
+        console.log("contenu du bas de page:"+" "+recoveryQuantity.textContent);
+        let newQuantity = recoveryQuantity.innerHTML;          //récupération quantité
+        console.log("récupération quantité total de likes du bas de pages:"+" " +newQuantity);
+        newQuantity = parseInt(newQuantity) + 1;
+        console.log("nouvelle quantité à intégrer en bas de page:"+" "+newQuantity) 
+        recoveryQuantity.innerText = newQuantity;                       //aumentation de 1 
     }
 
-    async function retryAuTotal() {                            // fonction diminuer le total de "likes" en bas écran  
+    async function retryAuTotal() {                            // fonction diminuer le total de "likes" en bas écran   
         let recoveryQuantity= document.querySelector(".likesTotal");
-        let newQuantity  = recoveryQuantity.textContent;
-        un = 1;
-        newQuantity= parseInt(newQuantity) - un;
+        let newQuantity  = recoveryQuantity.innerText;
+        console.log("récupération quantité total de likes du bas de pages:"+" " +newQuantity);
+        newQuantity= parseInt(newQuantity) - 1; 
+        console.log("nouvelle quantité à intégrer en bas de page:"+" "+newQuantity) 
         recoveryQuantity.textContent = newQuantity;
     }
 }                        // FIN DE CETTE PARTIE
@@ -404,6 +427,17 @@ sortChoice.style.display ="flex";
 sortChoice.style.justifyContent ="center"
 sortChoice.style.width = "70%";
 sortChoice.textContent = "Popularité";
+
+
+
+
+
+
+
+
+
+
+
 
 const openIcon = document.createElement("li");
 openIcon.className = "chevronIcon";
@@ -533,4 +567,227 @@ screenSize4.addEventListener('change', mobile2);
       }
     }
 
-        
+ 
+    
+
+
+
+
+    
+//----------------------------------------LIGHTBOX-------------------------------------------------------------
+
+ const lightboxMain = document.createElement("div");
+ lightboxMain.className  = "lightboxMain";
+ lightboxMain.style.display = "none";
+ lightboxMain.style.position = "fixed";
+ lightboxMain.style.flexDirection ="column";
+ lightboxMain.style.justifyContent ="center";
+ lightboxMain.style.alignItems ="start"
+ lightboxMain.style.top = "0";
+ lightboxMain.style.maxWidth = "1245px";
+ lightboxMain.style.width = "80vw"
+ lightboxMain.style.marginLeft = "10vw";
+ lightboxMain.style.marginRight = "10vw";
+ lightboxMain.style.zIndex = "100";
+ lightboxMain.style.height = "auto";
+ lightboxMain.style.maxHeight ="900px";
+ //lightboxMain.style.backgroundColor = "yellow";
+
+ 
+
+ const lightboxContainer = document.createElement("div");
+ lightboxContainer.className = "lightboxContainer";
+ lightboxContainer.style.display = "flex";
+ lightboxContainer.style.width = "100%";
+ lightboxContainer.style.maxHeight = "900px";
+ lightboxContainer.style.justifyContent ="center";
+ lightboxContainer.style.alignItems = "space between";
+ lightboxContainer.style .marginTop = "15px";
+
+ const closeButton = document.createElement("button");
+ closeButton.className = "closeButton";
+ closeButton.style.right ="0";
+ closeButton.style.display = "flex";
+ closeButton.style.position = "absolute";
+ closeButton.style.zIndex = "22";
+ closeButton.style.width = "40px";
+ closeButton.style.height = "50px";
+ closeButton.style.marginRight = "0";
+ closeButton.style.marginLeft = "auto";
+ closeButton.style.color ="#901C1C";
+ closeButton.style.cursor ="pointer";
+ closeButton.style.background = "white";
+ closeButton.style.border = "none";
+ const closeIcon = document.createElement("li");
+ closeIcon.className = "fa-solid fa-xmark";
+ closeIcon.style.fontSize = "50px";
+ closeIcon.style.paddingTop = "10px";
+
+const previousButton = document.createElement("button");
+previousButton.className = "previousButton";
+previousButton.style.display = "flex";
+previousButton.style.justifyContent ="center";
+previousButton.style.alignItems = "center";
+previousButton.style.width = "50px";
+previousButton.style.height = "50px"
+previousButton.style.paddingRight = "20px"
+previousButton.style .margin = "auto 0";
+previousButton.style.color = "#901C1C";
+previousButton.style.cursor = "pointer";
+previousButton.style.backgroundColor ="white";
+previousButton.style.border = "none";
+const previousIcon = document.createElement("li")
+previousIcon.className = "previousIcon"
+previousIcon.className = "fa-solid fa-chevron-left";
+previousIcon.style.fontSize = "40px";
+previousIcon.style.position = "fixed";
+previousIcon.style.zIndex = "20"
+
+const nextButton = document.createElement("button");
+nextButton.className = "nextButton";
+nextButton.style.ariaLabel = "bouton  suivant"
+nextButton.style.display = "flex";
+nextButton.style.justifyContent = "center";
+nextButton.style.alignItems = "center";
+nextButton.style.paddingBottom = "35px"
+nextButton.style.paddingLeft = "20px"
+nextButton.style.width = "50px";
+nextButton.style.margin = "auto 0";
+nextButton.style.color = "#901C1C";
+nextButton.style.cursor = "pointer";
+nextButton.style.backgroundColor ="white";
+nextButton.style.border = "none";
+const nextIcon = document.createElement("li")
+nextIcon.className = "fa-solid fa-chevron-right";
+nextButton.style.fontSize = "40px";
+nextIcon.style.position ="fixed";
+nextIcon.style.zIndex = "20";
+
+const pictureContainer = document.createElement("picture");
+pictureContainer.style.display ="flex";
+pictureContainer.style.width = "100%";
+pictureContainer.style.maxHeight = "900px";
+pictureContainer.style.backgroundColor = "black";
+//pictureContainer.style.backgroundColor ="blue";
+
+const video = document.createElement("video");
+video.controls = "controls";
+video.style.objectFit = "contain";
+video.style.width = "100%";
+
+const picture = document.createElement("img");
+video.controls = "";
+picture.style.objectFit = "contain";
+picture.style.width = "100%";
+
+
+const figcaption = document.createElement("figcaption");
+figcaption.style.display = "flex";
+figcaption.textContent = "";
+figcaption.style.marginLeft = "50px";
+figcaption.style.marginTop = "20px"
+figcaption.style.fontSize = "25px";
+figcaption.style.color = "#901C1C";
+
+closeButton.appendChild(closeIcon);
+pictureContainer.appendChild(picture);
+pictureContainer.appendChild(video);
+previousButton.appendChild(previousIcon);
+nextButton.appendChild(nextIcon);
+lightboxContainer.appendChild(previousButton);
+lightboxContainer.appendChild(pictureContainer);
+lightboxContainer.appendChild(nextButton);
+lightboxMain.appendChild(closeButton);
+lightboxMain.appendChild(lightboxContainer);
+lightboxMain.appendChild(figcaption);
+
+ let body = document.querySelector("body");
+ body.appendChild(lightboxMain);
+
+
+
+function getexterieur(selectedPictures, mediasPhotographArray) {
+console.log(selectedPictures);
+
+console.log(selectedPictures.getAttribute("src"));
+
+console.log(mediasPhotographArray);
+lightboxMain.style.display = "block";
+document.querySelector("header").style.display = "none";
+document.querySelector(".photograph-header").style.display = "none";
+document.querySelector(".divSort").style.display = "none";
+document.querySelector(".photograph-media").style.display = "none";
+document.querySelector(".totalLikesAndTarif").style.display = "none";
+
+picture.src = selectedPictures.src;
+video.src = selectedPictures.src;
+
+console.log(selectedPictures.getAttribute("src"));
+
+console.log(selectedPictures.getAttribute("src").lastIndexOf("/"));
+let findLastSlash = selectedPictures.getAttribute("src").lastIndexOf("/");
+console.log(selectedPictures.getAttribute("src").substring(findLastSlash+1));
+let pictureText = selectedPictures.getAttribute("src").substring(findLastSlash+1);
+
+varphotographPath = selectedPictures.getAttribute("src").substring(0,findLastSlash+1);
+
+
+for (var i=0; i<mediasPhotographArray.length; i++) {
+    if (mediasPhotographArray[i].image== pictureText  || mediasPhotographArray[i].video== pictureText) {
+        figcaption.textContent = mediasPhotographArray[i].title;
+        console.log(mediasPhotographArray[i]);
+        var numberPictureInArray = i;
+      
+    }
+}
+
+closeButton.addEventListener("click", function() {
+    lightboxMain.style.display = "none";
+    document.querySelector("header").style.display = "flex";
+    document.querySelector(".photograph-header").style.display = "flex";
+    document.querySelector(".divSort").style.display = "flex";
+    document.querySelector(".photograph-media").style.display = "grid";
+    document.querySelector(".totalLikesAndTarif").style.display = "flex";
+    previousIcon.style.display ="flex";
+    nextIcon.style.display ="flex";
+    });
+
+
+previousButton.addEventListener("click", function() {
+    if( numberPictureInArray!=0) { 
+        nextIcon.style.display ="flex"
+        numberPictureInArray-= 1;
+        if(numberPictureInArray==0) {
+            previousIcon.style.display ="none";  
+        }
+        picture.src = varphotographPath+mediasPhotographArray[numberPictureInArray].image;
+        video.src = varphotographPath+mediasPhotographArray[numberPictureInArray].video;
+        figcaption.textContent = mediasPhotographArray[numberPictureInArray].title;
+    }
+});
+
+nextButton.addEventListener("click",function() {
+    if( numberPictureInArray < mediasPhotographArray.length) { 
+        previousIcon.style.display ="flex"
+        numberPictureInArray += 1;
+        if( numberPictureInArray== mediasPhotographArray.length-1) {
+            nextIcon.style.display ="none";
+        }
+        picture.src = varphotographPath+mediasPhotographArray[numberPictureInArray].image;
+        video.src = varphotographPath+mediasPhotographArray[numberPictureInArray].video;
+        figcaption.textContent = mediasPhotographArray[numberPictureInArray].title;
+    }
+ 
+});
+
+}
+
+
+
+/*function getexterieurPourHeart(riri, roro) {
+    console.log(riri);
+    console.log(roro);
+    console.log(riri.value);
+    let ruru = riri.value
+    console.log(roro[ruru].likes)
+}*/

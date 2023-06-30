@@ -1,3 +1,8 @@
+body {
+    margin: auto;
+}
+
+
 #contact_modal {
     display: none;
 }
