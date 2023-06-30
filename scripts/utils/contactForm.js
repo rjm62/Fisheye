@@ -151,7 +151,8 @@ yourMessage.addEventListener("change", yourMessageCheck);
   firstCheckResult=(regFirst.test(check));
   if (firstCheckResult/1==1) {
     firstLabel.style.color = "black";
-    firstLabel.textContent = "Prénom"
+    firstLabel.textContent = "Prénom";
+    checkTextButton();
   }
   else {
     firstLabel.style.color = "red";
@@ -165,7 +166,8 @@ yourMessage.addEventListener("change", yourMessageCheck);
   lastCheckResult=(regLast.test(check));
   if (lastCheckResult/1==1) {
     lastLabel.style.color = "black";
-    lastLabel.textContent = "Nom"
+    lastLabel.textContent = "Nom";
+    checkTextButton();
   }
   else {
     lastLabel.style.color = "red";
@@ -181,6 +183,7 @@ yourMessage.addEventListener("change", yourMessageCheck);
     if (emailCheckResult/1==1) {
       emailLabel.style.color = "black";
       emailLabel.textContent = "Email" 
+      checkTextButton();
     }
     else {
       emailLabel.style.color = "red";
@@ -194,17 +197,19 @@ yourMessage.addEventListener("change", yourMessageCheck);
     yourMessageLabel.style.color = "black";
     yourMessageLabel.textContent = "Your message"
     messageCheckResult = "1";
+    checkTextButton();
   }
   else {
     yourMessageLabel.style.color = "red";
     yourMessageLabel.textContent = "Merci de laisser un message";
-    messageCheckResult = "1";
+    messageCheckResult = "0";
 
   }
 }
-
+function checkTextButton() {
 if (firstCheckResult/1==1 & lastCheckResult/1==1 & emailCheckResult/1==1 & messageCheckResult =="1" ) {
   buttonCommentModif.textContent ="Envoyer";
+}
 }
 
 
@@ -227,6 +232,8 @@ event.preventDefault();
       lastCheck();
       emailCheck();
       yourMessageCheck();
+      document.querySelector(".modal form #contact_button").textContent = "compléter avant envoi";
+
     }
  
 }
