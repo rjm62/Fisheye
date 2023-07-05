@@ -1,3 +1,4 @@
+initialTri = 0;
 async function getPhotographers() {
     const reponse = await fetch('./data/photographers.json');
     let recovery = await reponse.json();
@@ -135,9 +136,10 @@ async function getMediasCard(mediasData,forDayPriceData) {
     for(let s=0; s<mediasElementArray.length; s++) {
         if(mediasElementArray[s].photographerId == photographerId) {
         photographerArray.push(mediasElementArray[s]);
+        var tableauOrigine =[].concat(photographerArray);
         }
     }
-    genererMediaCards(photographerArray);
+    genererMediaCards(photographerArray, tableauOrigine);
 
 
 
@@ -146,41 +148,106 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
     const dateEvenListener = document.querySelector(".dateSort");    // "ecoute" si click sur "date"
     dateEvenListener.addEventListener("click", function() {
-        const listeOrdonneeDate = Array.from(photographerArray);    // création d'un tableau à partir de celui du photographe
-        for(let t=0; t<photographerArray.length; t++) {
+        let elementsOfMediacards = document.querySelectorAll(".mediacards");
+        const listeOrdonneeDate = Array.from(elementsOfMediacards);    // création d'un tableau à partir de celui du photographe
+      
+        for(let t=0; t<elementsOfMediacards.length; t++) {
             listeOrdonneeDate.sort(function(a,b) {              // tri pour réaliser un tableau des dates du plus récent au plus ancien
-            return a.date.split("-").join("") - b.date.split("-").join("");  // comparaison des éléments entre eux
+            let A = a.querySelector("figcaption").getAttribute("date");
+            let B = b.querySelector("figcaption").getAttribute("date");
+            return A.split("-").join("") - B.split("-").join("");  // comparaison des éléments entre eux
             });
         } 
-        const listeOrdonneeDate1 = listeOrdonneeDate.reverse();
-    console.log(listeOrdonneeDate);
-    document.querySelector(".photograph-media").innerHTML = "";    // effacement de la partie photos et videos du photographe
-    genererMediaCards(listeOrdonneeDate1);                          // appel de la fonstion création des cartes photos
-    document.querySelector(".totalLikesAndTarif").innerHTML = "";
-    //document.querySelector(".divLikesAndHeart").innerHTML = "";
-    //document.querySelector(".likesTotal").innerHTML= "";
+        const listeOrdonneeDate1 = listeOrdonneeDate.reverse();   // inversion du tableau pour avoir les dates du plus ancien au plus récent
+        display(listeOrdonneeDate1);
+        console.log(dateEvenListener.className);
+        let asterix = document.querySelector(".actualChoice");
+        let obelix = asterix.textContent;
+        asterix.textContent="date"
+        idefix =asterix.className
+        dateEvenListener.textContent = obelix;
+        if(dateEvenListener.className=="dateSort possible1Choice") {
+            dateEvenListener.className=(idefix.substring(0,(idefix.indexOf(" ")))+" "+"possible1Choice");
+            console.log( dateEvenListener.className );
+           
+        }
+        else {
+            dateEvenListener.className = "dateSort possible2Choice";
+            console.log(dateEvenListener.className)
+        };
+        popularityMenu();
     });
+
+   
+
 
     const titleEvenListener = document.querySelector(".titleSort");    // "ecoute" si click sur "titre" 
     titleEvenListener.addEventListener("click", function() {
-        const listeOrdonneeTitle = Array.from(photographerArray);   // création d'un tableau à partir de celui du photographe
-        for(let u=0; u<photographerArray.length; u++) {
+        let elementsOfMediacards = document.querySelectorAll(".mediacards");
+        const listeOrdonneeTitle = Array.from(elementsOfMediacards);   // création d'un tableau à partir de celui du photographe
+
+        for(let u=0; u<elementsOfMediacards.length; u++) {
             listeOrdonneeTitle.sort(function(a,b) {         // tri pour réaliser un tableau des titres du plus récent au plus ancien    
-            return a.title.split(/\s*[\,]*\s*/).join("").localeCompare(b.title.split(" ").join(""));
+             let A = a.querySelector("figcaption .mediaTitle").textContent;
+             let B = b.querySelector("figcaption .mediaTitle").textContent;
+            return A.split(/\s*[\,]*\s*/).join("").localeCompare(B.split(" ").join(""));
             });
         } 
-
-    document.querySelector(".photograph-media").innerHTML = "";   // effacement de la partie photos et videos du photographe
-    document.querySelector(".totalLikesAndTarif").innerHTML = "";
-    //document.querySelector(".divLikesAndHeart").innerHTML = "";
-    //document.querySelector(".likesTotal").innerHTML= "";
-    genererMediaCards(listeOrdonneeTitle);                                                              
+    
+         display(listeOrdonneeTitle);                                               
     });
+
+    if(initialTri!=0) {
+    const popularityEvenListener = document.querySelector(".popularitySort");    // "ecoute" si click sur "titre" 
+    popularityEvenListener.addEventListener("click", function() {
+        let elementsOfMediacards = document.querySelectorAll(".mediacards");
+        const listeOrdonneepopularity = Array.from(elementsOfMediacards);   // création d'un tableau à partir de celui du photographe
+        console.log(elementsOfMediacards[0].querySelector("figcaption .likesNumber").textContent);
+
+        for(let v=0; v<elementsOfMediacards.length; v++) {
+            listeOrdonneepopularity.sort(function(a,b) {         // tri pour réaliser un tableau des titres du plus récent au plus ancien    
+             let A = a.querySelector("figcaption .likesNumber").textContent;
+             let B = b.querySelector("figcaption .likesNumber").textContent;
+            return A-B;
+            });
+        } 
+        const listeOrdonneepopularity1 = listeOrdonneepopularity.reverse();
+         display(listeOrdonneepopularity1);                                               
+    });
+}
+
+    else {
+        let elementsOfMediacards = document.querySelectorAll(".mediacards");
+        const listeOrdonneepopularity = Array.from(elementsOfMediacards);   // création d'un tableau à partir de celui du photographe
+        console.log(elementsOfMediacards[0].querySelector("figcaption .likesNumber").textContent);
+
+        for(let v=0; v<elementsOfMediacards.length; v++) {
+            listeOrdonneepopularity.sort(function(a,b) {         // tri pour réaliser un tableau des titres du plus récent au plus ancien    
+             let A = a.querySelector("figcaption .likesNumber").textContent;
+             let B = b.querySelector("figcaption .likesNumber").textContent;
+            return A-B;
+            });
+        } 
+        const listeOrdonneepopularity1 = listeOrdonneepopularity.reverse();
+         display(listeOrdonneepopularity);
+
+    }
+
+
+
+
+    function display(mediaCardsArray) {
+        let containerDateOrder =document.querySelector(".photograph-media");
+       mediaCardsArray.forEach(function(card) {
+            containerDateOrder.appendChild(card);
+            initialTri=1;
+        });
+    }    
 
 //-------------------------------------------FIN DU MODULE DE TRI--------------------------------------    
 
-
-    function genererMediaCards(elementsArray) {
+//------------------------------------DEBUT DE REALISATION DES MEDIAS DU PHOTOGRAPHE--------------------------
+    function genererMediaCards(elementsArray, tableauOrigine) {
         var likesSum = 0;
         var likesToAdd = 0;
     for(let j=0; j<elementsArray.length; j++) {
@@ -225,7 +292,8 @@ async function getMediasCard(mediasData,forDayPriceData) {
             figcaption.style.display = "flex";
             figcaption.style.width = "100%"
             figcaption.style.justifyContent ="space-between"
-            figcaption.style.alignItems = "center"                
+            figcaption.style.alignItems = "center" 
+            figcaption.setAttribute("date", elementsArray[j].date);             
 
             const mediaTitle = document.createElement("p");                  // ajout du titre de la photo     
             mediaTitle.className = "mediaTitle";  
@@ -245,28 +313,32 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
             likesToAdd = elementsArray[j].likes;
             likesSum += likesToAdd;
-            console.log("suis là"+" "+likesSum);
 
-            const heartContainer= document.createElement("div");            // ajout du coeur 
-            heartContainer.addEventListener("click", function heartCount() {   //ecoute si clic sur coeur et analyse position 
-                let clickHeart = event.target;               
-                likesModified(clickHeart , elementsArray);     // appel de la fonction pour modification quantité, avec comme arguments
+           const heartContainer= document.createElement("div");            // ajout du coeur 
+            //heartContainer.addEventListener("click", function heartCount() {   //ecoute si clic sur coeur et analyse position 
+            //    let clickHeart = event.target;               
+            //    likesModified(clickHeart , elementsArray);     // appel de la fonction pour modification quantité, avec comme arguments
                                                                // position événement et tableau des fiches du photographe
 
-            });    
+            
             heartContainer.style.display = "flex";
             heartContainer.style.justifyContent = "center";
             heartContainer.style.alignItems = "center";
-            heartContainer.className = "heart"+[j];
+            heartContainer.className = "heart"+[j] ;
             heartContainer.value = [j];
-            heartContainer.style.cursor = "pointer";
 
             const heart = document.createElement("li");
-            heart.className = "fa-solid fa-heart";
-           
+            heart.className = "fa-regular fa-heart";
+            heart.style.cursor = "pointer";
             heart.value =[j];
             heart.style.color = "#901C1C";
+
+                                                              // ajout du coeur 
+            heart.addEventListener("click", function heartCount(event) {   //ecoute si clic sur coeur et analyse position 
+                let clickHeart = event.target;               
+                likesModified(clickHeart , elementsArray, tableauOrigine);     // appel de la fonction pour modification quantité, avec comme arguments
             
+            });
             heartContainer.appendChild(heart);                            // intégration des "enfants" dans les "parents"
             likesContainer.appendChild(likesNumber);
 
@@ -317,8 +389,6 @@ async function getMediasCard(mediasData,forDayPriceData) {
         likesTotal.className = "likesTotal";
         likesTotal.innerHTML ="";
         likesTotal.textContent = likesSum;
-        console.log("entrée dans conteneur bas de page"+likesSum);
-        console.log(likesTotal.textContent);
         likesTotal.style.paddingRight = "4px";
         divLikesAndHeart.appendChild(likesTotal);
 
@@ -342,53 +412,62 @@ init();
 
 
 
+    // FONCTION POUR RECUPERER L'EMPLACEMENT DU COEUR CLIQUE ET MODIFICATION DU NOMBRE DE "LIKES" ET DU TOTAL EN BAS DE L'ECRAN
+    function likesModified(eventHeartClicked, photographHeartsArray) {
+        positionHeartClicked = eventHeartClicked.value;
+        console.log(eventHeartClicked.className);
+              
+let upParent1 = eventHeartClicked.parentNode;           // remonté d'un cran vers le parent juste au dessus
+let upParent2 = upParent1.parentNode;                       // remonté d'un cran supplémentaire vers parent du parent
+let likeHeartcontainer = upParent2.childNodes;              // recupération du conteneur enfant du grand parent
+let heartColor =eventHeartClicked.className
 
-     // FONCTION POUR RECUPERER L'EMPLACEMENT DU COEUR CLIQUE ET MODIFICATION DU NOMBRE DE "LIKES" ET DU TOTAL EN BAS DE L'ECRAN
-function likesModified(eventHeartClicked, photographHeartsArray) {
-            positionHeartClicked = eventHeartClicked.value;
-                  
-    let upParent1 = eventHeartClicked.parentNode;           // remonté d'un cran vers le parent juste au dessus
-    let upParent2 = upParent1.parentNode;                       // remonté d'un cran supplémentaire vers parent du parent
-    let likeHeartcontainer = upParent2.childNodes;              // recupération du conteneur enfant du grand parent
+let originLikesNumber = photographHeartsArray[positionHeartClicked].likes; // nombre de likes (récupéré dans le fichier medias de JSON)  
+let actuallyLikesNumber = likeHeartcontainer[0].innerText;  // nombre de "likes" affiché sur la page
 
-    let originLikesNumber = photographHeartsArray[positionHeartClicked].likes; // nombre de likes (récupéré dans le fichier medias de JSON)  
-    let actuallyLikesNumber = likeHeartcontainer[0].innerText;  // nombre de "likes" affiché sur la page
+console.log(originLikesNumber);
+console.log(actuallyLikesNumber);
+if(originLikesNumber==actuallyLikesNumber) {                // vérification entre Nbre de"likes" du fichier JSON et de la page affichée
+    actuallyLikesNumber ++;                                 // Si égalité incrémentation
+    likeHeartcontainer[0].innerHTML =actuallyLikesNumber;   // et on affiche la nouvelle quantité 
+    eventHeartClicked.className= "";
+    eventHeartClicked.className ="fa-solid fa-heart";
+    ajoutAuTotal() ;                                        // appel de la fonction pour augmenter le total en bas de l'écran
+}
+else {
+    actuallyLikesNumber--;                                 // sinon "inlikes"
+    likeHeartcontainer[0].innerHTML =actuallyLikesNumber;  // et on affiche la nouvelle quantité (soit 1 "like" de moins)
+    eventHeartClicked.className = "";
+    eventHeartClicked.className ="fa-regular fa-heart";        
+    retryAuTotal() ;                                        // appel de la fonction pour diminuer le total en bas de l'écran
+                                 
+}
+async function ajoutAuTotal() {  // fonction augmenter le total de "likes" en bas écran                     
+    const recoveryQuantity = document.querySelector(".likesTotal");    //récupération conteneur
+    console.log("contenu du bas de page:"+" "+recoveryQuantity.textContent);
+    let newQuantity = recoveryQuantity.innerHTML;          //récupération quantité
+    console.log("récupération quantité total de likes du bas de pages:"+" " +newQuantity);
+    newQuantity = parseInt(newQuantity) + 1;
+    console.log("nouvelle quantité à intégrer en bas de page:"+" "+newQuantity) 
+    recoveryQuantity.innerText = newQuantity;                       //aumentation de 1 
+}
 
-    console.log(originLikesNumber);
-    console.log(actuallyLikesNumber);
-    if(originLikesNumber==actuallyLikesNumber) {                // vérification entre Nbre de"likes" du fichier JSON et de la page affichée
-        actuallyLikesNumber ++;                                 // Si égalité incrémentation
-        likeHeartcontainer[0].innerHTML =actuallyLikesNumber;   // et on affiche la nouvelle quantité 
-        ajoutAuTotal() ;                                        // appel de la fonction pour augmenter le total en bas de l'écran
-    }
-    else {
-        actuallyLikesNumber--;                                 // sinon "inlikes"
-        likeHeartcontainer[0].innerHTML =actuallyLikesNumber;  // et on affiche la nouvelle quantité (soit 1 "like" de moins)
-        retryAuTotal() ;                                        // appel de la fonction pour diminuer le total en bas de l'écran
-    }
-    async function ajoutAuTotal() {  // fonction augmenter le total de "likes" en bas écran                     
-        const recoveryQuantity = document.querySelector(".likesTotal");    //récupération conteneur
-        console.log("contenu du bas de page:"+" "+recoveryQuantity.textContent);
-        let newQuantity = recoveryQuantity.innerHTML;          //récupération quantité
-        console.log("récupération quantité total de likes du bas de pages:"+" " +newQuantity);
-        newQuantity = parseInt(newQuantity) + 1;
-        console.log("nouvelle quantité à intégrer en bas de page:"+" "+newQuantity) 
-        recoveryQuantity.innerText = newQuantity;                       //aumentation de 1 
-    }
-
-    async function retryAuTotal() {                            // fonction diminuer le total de "likes" en bas écran   
-        let recoveryQuantity= document.querySelector(".likesTotal");
-        let newQuantity  = recoveryQuantity.innerText;
-        console.log("récupération quantité total de likes du bas de pages:"+" " +newQuantity);
-        newQuantity= parseInt(newQuantity) - 1; 
-        console.log("nouvelle quantité à intégrer en bas de page:"+" "+newQuantity) 
-        recoveryQuantity.textContent = newQuantity;
-    }
+async function retryAuTotal() {                            // fonction diminuer le total de "likes" en bas écran   
+    let recoveryQuantity= document.querySelector(".likesTotal");
+    let newQuantity  = recoveryQuantity.innerText;
+    console.log("récupération quantité total de likes du bas de pages:"+" " +newQuantity);
+    newQuantity= parseInt(newQuantity) - 1; 
+    console.log("nouvelle quantité à intégrer en bas de page:"+" "+newQuantity) 
+    recoveryQuantity.textContent = newQuantity;
+}
 }                        // FIN DE CETTE PARTIE
-                        
+                    
 
 
-         // REALISATION DE LA DIV DE "TRI PAR POPULARITE ( "TITRE ET DATE" )
+
+
+
+         // REALISATION DE STRUCTURER HTML DE "TRI PAR: POPULARITE - TITRE - DATE" )
 const divSort = document.createElement("div");       // création div générale
 divSort.className = "divSort";
 divSort.style.display = "flex";
@@ -420,21 +499,12 @@ divPopularity.style.backgroundColor = "#901C1C";
 divPopularity.style.color = "white";
 divPopularity.style.borderRadius= "5px";
 const sortChoice = document.createElement("p");
+sortChoice.className = "popularitySort actualChoice"
 sortChoice.style.display ="flex";
 sortChoice.style.justifyContent ="center"
 sortChoice.style.width = "70%";
 sortChoice.textContent = "Popularité";
 sortChoice.tabIndex = "0";
-
-
-
-
-
-
-
-
-
-
 
 
 const openIcon = document.createElement("li");
@@ -472,7 +542,7 @@ popularityWindow.style.boxShadow = "0px 3px 5px grey";
 divPopularityContainer.appendChild(popularityWindow);
 
 const dateSort = document.createElement("p");
-dateSort.className = "dateSort"
+dateSort.className = "dateSort possible1Choice"
 dateSort.style.marginTop = "0";
 dateSort.style.marginRight = "10px";
 dateSort.style.textIndent = "5px";
@@ -482,7 +552,7 @@ dateSort.style.borderTop ="1px solid white";
 dateSort.style.borderBottom = "1px solid white";
 dateSort.style.cursor = "pointer";
 const titleSort = document.createElement("p");
-titleSort.className = "titleSort"
+titleSort.className = "titleSort possible2Choice"
 titleSort.textContent = "Titre";
 titleSort.style.marginTop = "0";
 titleSort.style.paddingTop ="-30px";
@@ -620,6 +690,7 @@ screenSize4.addEventListener('change', mobile2);
  closeButton.style.cursor ="pointer";
  closeButton.style.background = "white";
  closeButton.style.border = "none";
+ closeButton.style.cursor = "pointer"
  const closeIcon = document.createElement("li");
  closeIcon.className = "fa-solid fa-xmark";
  closeIcon.style.fontSize = "50px";
