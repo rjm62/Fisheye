@@ -244,13 +244,15 @@ async function getMediasCard(mediasData,forDayPriceData) {
         popularityMenu();                             // fonction pour fermer le menu déroulant
 
 
-        const imgLightbox = document.querySelectorAll(".mediacards img");
-        for(let i=0; i<imgLightbox.length; i++) {
+        const imgLightbox = document.querySelectorAll(".mediacards img, .mediacards video");
+        console.log(imgLightbox);
+        for(let w=0; w<imgLightbox.length; w++) {
            // console.log("bonsoir");
             //console.log(imgLightbox[i]);
            // console.log(imgLightbox.length);
-        imgLightbox[i].addEventListener("click", function(event) {
+        imgLightbox[w].addEventListener("click", function(event) {
         var clickphoto = event.target; 
+        console.log(imgLightbox);
         event.stopImmediatePropagation(); 
         console.log("youpi!!!!!"); 
         const titleLightbox = document.querySelectorAll(".mediacards figcaption"); 
@@ -282,10 +284,10 @@ async function getMediasCard(mediasData,forDayPriceData) {
             img.style.cursor = "pointer";
 
             const video = document.createElement("video");
-             video.addEventListener("click", function lightbox() {
-                let clickvideo = event.target;               
-                openLightbox(clickvideo , elementsArray);
-            });
+             //video.addEventListener("click", function lightbox() {
+              //  let clickvideo = event.target;               
+               // openLightbox(clickvideo , elementsArray);
+           // });
             video.style.cursor = "pointer";
 
             img.style.width="100%";
@@ -847,9 +849,8 @@ console.log("1");
     function previousMedia() {
         console.log("je suis dans previous");
         event.stopImmediatePropagation();
-        let titi = document.querySelectorAll(".mediacards img");
-        let tata = titi[0];
-        console.log(tata);
+        let titi = document.querySelectorAll(".mediacards img, .mediacards video");
+        
         if( numberPictureInArray!=0) { 
             nextIcon.style.display ="flex";
             numberPictureInArray -= 1;
@@ -860,7 +861,7 @@ console.log("1");
             picture.src = titi[numberPictureInArray].src;
             console.log(picture.src);
             video.src = titi[numberPictureInArray].src;
-            console.log(titi[numberPictureInArray]);
+            console.log(titi[numberPictureInArray].src);
             figcaption.textContent = text[numberPictureInArray].innerText;
             if(titi[numberPictureInArray].video!=undefined) {
                 video.controls = "controls";
@@ -910,8 +911,8 @@ console.log("1");
     function nextMedia() {
         console.log("je suis dans next");
         event.stopImmediatePropagation();
-        let titi = document.querySelectorAll(".mediacards img");
-        let tata = titi[0];
+        let titi = document.querySelectorAll(".mediacards img, .mediacards video");
+        let tata = titi[7];
         console.log(tata);
         if ( numberPictureInArray < mediasPhotographArray.length) { 
             previousIcon.style.display ="flex";
@@ -923,7 +924,7 @@ console.log("1");
             picture.src = titi[numberPictureInArray].src;
             console.log(picture.src);
             video.src = titi[numberPictureInArray].src;
-            console.log(titi[numberPictureInArray]);
+            console.log(titi[numberPictureInArray].src);
             figcaption.textContent = text[numberPictureInArray].innerText;
             if(titi[numberPictureInArray].video!=undefined) {
                 video.controls = "controls";
