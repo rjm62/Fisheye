@@ -8,15 +8,15 @@ let medias = recovery["media"];
             photographers: [...photographers]})
         }
         
-
  async function displayData(photographers) {  
     const photographersSection = document.querySelector(".photographer_section");
     photographers.forEach((photographer) => {
         const photographerModel = photographerFactory(photographer);
         const userCardDOM = photographerModel.getUserCardDOM(); 
         photographersSection.appendChild(userCardDOM);
-    });    
-};
+        });
+    }    
+
 
 async function init() {
     // Récupère les datas des photographes
@@ -26,6 +26,14 @@ async function init() {
     }
     
     init();
+
+    //var ENTERKEY = 13;
+   //let userCardDOM = document.querySelector("userCardDOM");
+    //userCardDOM.addEventListener("keydown", function(event) {
+     // if (event.keyCode == ENTERKEY) {
+     //   href = ref="photographer.html?"+id;
+    //  } 
+    //});
 
                   // PARAMETRES POUR RENDRE RESPONSIVE LA PAGE DES PHOTOGRAPHES
 

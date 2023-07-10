@@ -1,9 +1,21 @@
 // MISE EN PLACE ECOUTES POUR OUVERTURE ET FERMETURE MODAL
+const RETURN= 13;
 var modalOpen = document.querySelector(".photograph-header > .contact_button"); 
 modalOpen.addEventListener("click", displayModal);
-
+modalOpen.addEventListener("keydown", function(event){
+if(event.keyCode== RETURN) {
+  displayModal();
+}
+});
+const ESCAPE = 27;
 var modalClose = document.querySelector (".modal header img");
+modalClose.tabIndex="0";
 modalClose.addEventListener("click", closeModal);
+modalClose.addEventListener("keydown", function(event) {
+  if(event.keyCode== ESCAPE) {
+    closeModal();
+  }
+});
 
 
 function displayModal() {

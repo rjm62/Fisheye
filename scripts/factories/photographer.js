@@ -8,6 +8,7 @@ function photographerFactory(data) {
     function getUserCardDOM() {
 
         const article = document.createElement( 'article' );
+        article.className = "article";
         const img = document.createElement( 'img' );
         img.setAttribute("src", picture)
         img.style.borderRadius="50%";
@@ -25,8 +26,8 @@ function photographerFactory(data) {
         a.appendChild(img);
         a.appendChild(h2); 
         article.appendChild(a);
+        article.tabIndex = "0";
        
- 
         const figcaption = document.createElement("figcation");
         figcaption.style.marginTop = "-30px"
         
