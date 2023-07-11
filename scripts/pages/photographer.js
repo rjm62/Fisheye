@@ -236,33 +236,21 @@ async function getMediasCard(mediasData,forDayPriceData) {
     }
 
     function display(mediaCardsArray) {               // fonction pour réorganiser l'affichage des mediascards en fonction du tri demandé
-        let containerDateOrder =document.querySelector(".photograph-media");
+        var containerDateOrder =document.querySelector(".photograph-media");
         mediaCardsArray.forEach(function(card) {
             containerDateOrder.appendChild(card);
-            initialSort=1;                             // suppression de la demande prioritaire de tri par popularité
-        });
-        popularityMenu();                             // fonction pour fermer le menu déroulant
-
-
-        const imgLightbox = document.querySelectorAll(".mediacards img, .mediacards video");
-        console.log(imgLightbox);
-        for(let w=0; w<imgLightbox.length; w++) {
-           // console.log("bonsoir");
-            //console.log(imgLightbox[i]);
-           // console.log(imgLightbox.length);
-        imgLightbox[w].addEventListener("click", function(event) {
+            initialSort=1;                           // suppression de la demande prioritaire de tri par popularité                                                    
+        card.addEventListener("click", function(event) {
         var clickphoto = event.target; 
-        console.log(imgLightbox);
-        event.stopImmediatePropagation(); 
-        console.log("youpi!!!!!"); 
-        const titleLightbox = document.querySelectorAll(".mediacards figcaption"); 
-        console.log(clickphoto);
-       
-        console.log(titleLightbox);
-        openLightbox(clickphoto , imgLightbox, titleLightbox);
+        event.stopImmediatePropagation();
+    
+        containerDateOrder =document.querySelector(".photograph-media");
+        openLightbox(clickphoto); 
         });
-    }
-}    
+    });
+    popularityMenu();  
+}
+    
 //-------------------------------------------FIN DU MODULE DE TRI--------------------------------------    
 
 
@@ -277,24 +265,14 @@ async function getMediasCard(mediasData,forDayPriceData) {
             mediaCards.style.display = "flex";
             mediaCards.style.flexDirection = "column";
             const img = document.createElement("img");
-            //img.addEventListener("click", function lightbox() {
-               // let clickphoto = event.target;               
-              //  openLightbox(clickphoto , elementsArray);
-            //});
             img.style.cursor = "pointer";
-
-            const video = document.createElement("video");
-             //video.addEventListener("click", function lightbox() {
-              //  let clickvideo = event.target;               
-               // openLightbox(clickvideo , elementsArray);
-           // });
-            video.style.cursor = "pointer";
-
             img.style.width="100%";
             img.style.height= "350px";
             img.style.objectFit = "cover";
             img.style.marginRight = "0";
-            
+
+            const video = document.createElement("video");
+            video.style.cursor = "pointer";
             video.style.width = "100%";
             video.style.height= "350px";
             video.style.objectFit = "cover";
@@ -349,7 +327,8 @@ async function getMediasCard(mediasData,forDayPriceData) {
             heart.style.color = "#901C1C";
 
             heart.addEventListener("click", function heartCount(event) {   //ecoute si clic sur coeur et analyse position 
-                let clickHeart = event.target;               
+                let clickHeart = event.target; 
+                event.stopImmediatePropagation()              
                 likesModified(clickHeart , elementsArray);     // appel de la fonction pour modification quantité, avec comme arguments
             
             });
@@ -422,7 +401,6 @@ init();
     // FONCTION POUR RECUPERER L'EMPLACEMENT DU COEUR CLIQUE ET MODIFICATION DU NOMBRE DE "LIKES" ET DU TOTAL EN BAS DE L'ECRAN
 function likesModified(eventHeartClicked, photographHeartsArray) {
     let positionHeartClicked = eventHeartClicked.value;
-    console.log(eventHeartClicked.className);
               
     let upParent1 = eventHeartClicked.parentNode;           // remonté d'un cran vers le parent juste au dessus
     let upParent2 = upParent1.parentNode;                       // remonté d'un cran supplémentaire vers parent du parent
@@ -431,8 +409,6 @@ function likesModified(eventHeartClicked, photographHeartsArray) {
     let originLikesNumber = photographHeartsArray[positionHeartClicked].likes; // nombre de likes (récupéré dans le fichier medias de JSON)  
     let actuallyLikesNumber = likeHeartcontainer[0].innerText;  // nombre de "likes" affiché sur la page
 
-    console.log(originLikesNumber);
-    console.log(actuallyLikesNumber);
     if(originLikesNumber==actuallyLikesNumber) {                // vérification entre Nbre de"likes" du fichier JSON et de la page affichée
         actuallyLikesNumber ++;                                 // Si égalité incrémentation
         likeHeartcontainer[0].innerHTML =actuallyLikesNumber;   // et on affiche la nouvelle quantité 
@@ -450,20 +426,15 @@ function likesModified(eventHeartClicked, photographHeartsArray) {
     }
     async function ajoutAuTotal() {  // fonction augmenter le total de "likes" en bas écran                     
         const recoveryQuantity = document.querySelector(".likesTotal");    //récupération conteneur
-        console.log("contenu du bas de page:"+" "+recoveryQuantity.textContent);
         let newQuantity = recoveryQuantity.innerHTML;          //récupération quantité
-        console.log("récupération quantité total de likes du bas de pages:"+" " +newQuantity);
         newQuantity = parseInt(newQuantity) + 1;
-        console.log("nouvelle quantité à intégrer en bas de page:"+" "+newQuantity); 
         recoveryQuantity.innerText = newQuantity;                       //aumentation de 1 
     }
 
     async function retryAuTotal() {                            // fonction diminuer le total de "likes" en bas écran   
         let recoveryQuantity= document.querySelector(".likesTotal");
         let newQuantity  = recoveryQuantity.innerText;
-        console.log("récupération quantité total de likes du bas de pages:"+" " +newQuantity);
         newQuantity= parseInt(newQuantity) - 1; 
-        console.log("nouvelle quantité à intégrer en bas de page:"+" "+newQuantity); 
         recoveryQuantity.textContent = newQuantity;
     }
 }                        // FIN DE CETTE PARTIE
@@ -776,41 +747,34 @@ lightboxMain.appendChild(figcaption);
 
 
 
-function openLightbox(selectedPictures, mediasPhotographArray, text) {
-    lightboxMain.style.display = "block";
+function openLightbox(selectedPictures) {
+    let riri = document.querySelectorAll(".mediacards img, .mediacards video");
     document.querySelector("header").style.display = "none";
     document.querySelector(".photograph-header").style.display = "none";
     document.querySelector(".divSort").style.display = "none";
     document.querySelector(".photograph-media").style.display = "none";
     document.querySelector(".totalLikesAndTarif").style.display = "none";
 
-    
-
-console.log("1");
-    for (var t=0; t<mediasPhotographArray.length; t++) {
-        console.log("2"); 
-        console.log(mediasPhotographArray[t].src)
-        console.log(picture.src);
-        if (mediasPhotographArray[t].src== selectedPictures.src) { 
-            
-            console.log("3");  
+    for (var t=0; t<riri.length; t++) { 
+        if (riri[t].src== selectedPictures.src) {  
             numberPictureInArray = t;
-            console.log(numberPictureInArray);
-            figcaption.textContent = text[t].innerText; 
-        
-            if(mediasPhotographArray[numberPictureInArray].video!=undefined) {
-                video.controls = "controls";
-            }
-            else {
-                video.controls = "";
-            } 
-
-        } 
-    }
-
+        }
+    } 
     picture.src = selectedPictures.src;
     video.src = selectedPictures.src;
-   
+    console.log(picture.src)
+
+    let text = document.querySelectorAll(".mediacards figcaption");
+    figcaption.textContent = text[numberPictureInArray].innerText;
+    
+       console.log(picture); 
+    if(riri[numberPictureInArray].video!=undefined) {
+        video.controls = "controls";
+     }
+         else {
+            video.controls = "";
+        } 
+
     lightboxMain.style.display = "block";
     //document.querySelector("header").style.display = "none";
     //document.querySelector(".photograph-header").style.display = "none";
@@ -847,21 +811,19 @@ console.log("1");
     });
 
     function previousMedia() {
-        console.log("je suis dans previous");
         event.stopImmediatePropagation();
-        let titi = document.querySelectorAll(".mediacards img, .mediacards video");
+        let titi =document.querySelectorAll(".mediacards img, .mediacards video");
+     
         
         if( numberPictureInArray!=0) { 
             nextIcon.style.display ="flex";
             numberPictureInArray -= 1;
-            console.log(numberPictureInArray);
             if(numberPictureInArray==0) {
                 previousIcon.style.display ="none";  
             }
             picture.src = titi[numberPictureInArray].src;
-            console.log(picture.src);
             video.src = titi[numberPictureInArray].src;
-            console.log(titi[numberPictureInArray].src);
+            let text = document.querySelectorAll(".mediacards figcaption");
             figcaption.textContent = text[numberPictureInArray].innerText;
             if(titi[numberPictureInArray].video!=undefined) {
                 video.controls = "controls";
@@ -872,36 +834,11 @@ console.log("1");
     }
 }
    
-
-
-    /*function previousMedia() {
-        console.log(mediasPhotographArray[4]);
-        if( numberPictureInArray!=0) { 
-            nextIcon.style.display ="flex";
-            numberPictureInArray -= 1;
-            console.log(numberPictureInArray);
-            if(numberPictureInArray==0) {
-                previousIcon.style.display ="none";  
-            }
-            picture.src = mediasPhotographArray[numberPictureInArray].src;
-            video.src = mediasPhotographArray[numberPictureInArray].src;
-            console.log(mediasPhotographArray[numberPictureInArray]);
-            figcaption.textContent = text[numberPictureInArray].innerText;
-            if(mediasPhotographArray[numberPictureInArray].video!=undefined) {
-                video.controls = "controls";
-            }
-            else {
-                video.controls = "";
-            }
-        }
-    }*/
     const rightArrow = 39;
     nextButton.addEventListener("click", nextMedia); 
-    console.log("souris");
     event.stopImmediatePropagation();
     nextButton.addEventListener("keydown", function(event) {
         if( event.keyCode=== rightArrow) {
-            console.log("clavier");
             event.stopImmediatePropagation();      
             nextMedia();
 
@@ -909,22 +846,18 @@ console.log("1");
     });
 
     function nextMedia() {
-        console.log("je suis dans next");
         event.stopImmediatePropagation();
-        let titi = document.querySelectorAll(".mediacards img, .mediacards video");
-        let tata = titi[7];
-        console.log(tata);
-        if ( numberPictureInArray < mediasPhotographArray.length) { 
+        let titi =document.querySelectorAll(".mediacards img, .mediacards video");
+        
+        if( numberPictureInArray <titi.length) { 
             previousIcon.style.display ="flex";
             numberPictureInArray += 1;
-            console.log(numberPictureInArray);
-            if(numberPictureInArray== mediasPhotographArray.length-1) {
+            if(numberPictureInArray== titi.length-1) {
                 nextIcon.style.display ="none";  
             }
             picture.src = titi[numberPictureInArray].src;
-            console.log(picture.src);
             video.src = titi[numberPictureInArray].src;
-            console.log(titi[numberPictureInArray].src);
+            let text = document.querySelectorAll(".mediacards figcaption");
             figcaption.textContent = text[numberPictureInArray].innerText;
             if(titi[numberPictureInArray].video!=undefined) {
                 video.controls = "controls";
@@ -932,37 +865,7 @@ console.log("1");
             else {
                 video.controls = "";
             }
-        }    
-    }
-
-
-
-
-
-
-      /*  console.log("je suis dans next");
-        event.stopImmediatePropagation();
-        console.log(numberPictureInArray);
-        console.log("pourquoi????");
-        console.log(numberPictureInArray)
-        if( numberPictureInArray < mediasPhotographArray.length) { 
-           previousIcon.style.display ="flex";
-           numberPictureInArray += 1;
-            console.log(numberPictureInArray);
-            if( numberPictureInArray== mediasPhotographArray.length-1) {
-                nextIcon.style.display ="none";
-            }
-           picture.src = mediasPhotographArray[numberPictureInArray].src;
-           video.src = mediasPhotographArray[numberPictureInArray].src;
-           figcaption.textContent = text[numberPictureInArray].innerText;
-            if(mediasPhotographArray[numberPictureInArray].video!=undefined) {
-               video.controls = "controls";
-            }
-            else {
-               video.controls = "";
-            }
         }
-        console.log(numberPictureInArray)
-    } */
+    }
 }
 
