@@ -762,13 +762,11 @@ function openLightbox(selectedPictures) {
     } 
     picture.src = selectedPictures.src;
     video.src = selectedPictures.src;
-    console.log(picture.src)
-
+ 
     let text = document.querySelectorAll(".mediacards figcaption");
     figcaption.textContent = text[numberPictureInArray].innerText;
     
-       console.log(picture); 
-    if(riri[numberPictureInArray].video!=undefined) {
+    if(riri[numberPictureInArray].nodeName =="VIDEO") {
         video.controls = "controls";
      }
          else {
@@ -813,7 +811,6 @@ function openLightbox(selectedPictures) {
     function previousMedia() {
         event.stopImmediatePropagation();
         let titi =document.querySelectorAll(".mediacards img, .mediacards video");
-     
         
         if( numberPictureInArray!=0) { 
             nextIcon.style.display ="flex";
@@ -825,7 +822,7 @@ function openLightbox(selectedPictures) {
             video.src = titi[numberPictureInArray].src;
             let text = document.querySelectorAll(".mediacards figcaption");
             figcaption.textContent = text[numberPictureInArray].innerText;
-            if(titi[numberPictureInArray].video!=undefined) {
+            if(titi[numberPictureInArray].nodeName == "VIDEO") {
                 video.controls = "controls";
             }
             else {
@@ -859,7 +856,7 @@ function openLightbox(selectedPictures) {
             video.src = titi[numberPictureInArray].src;
             let text = document.querySelectorAll(".mediacards figcaption");
             figcaption.textContent = text[numberPictureInArray].innerText;
-            if(titi[numberPictureInArray].video!=undefined) {
+            if(titi[numberPictureInArray].nodeName =="VIDEO") {
                 video.controls = "controls";
             }
             else {

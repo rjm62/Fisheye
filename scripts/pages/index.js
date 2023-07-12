@@ -2,7 +2,7 @@ async function getPhotographers() {
 const reponse = await fetch('./data/photographers.json');
 let recovery = await reponse.json();
 let photographers = recovery["photographers"];
-let medias = recovery["media"];
+//let medias = recovery["media"];
 
         return ({
             photographers: [...photographers]})
@@ -26,14 +26,6 @@ async function init() {
     }
     
     init();
-
-    //var ENTERKEY = 13;
-   //let userCardDOM = document.querySelector("userCardDOM");
-    //userCardDOM.addEventListener("keydown", function(event) {
-     // if (event.keyCode == ENTERKEY) {
-     //   href = ref="photographer.html?"+id;
-    //  } 
-    //});
 
                   // PARAMETRES POUR RENDRE RESPONSIVE LA PAGE DES PHOTOGRAPHES
 

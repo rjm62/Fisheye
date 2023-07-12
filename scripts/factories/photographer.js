@@ -16,7 +16,7 @@ function photographerFactory(data) {
         const h2 = document.createElement( 'h2' );
         h2.textContent = name;
         var a = document.createElement("a");
-        a.href = ref="photographer.html?"+id;
+        a.href ="photographer.html?"+id;
         a.style.textDecoration ="none";
         a.style.display ="flex";
         a.style.flexDirection ="column";
