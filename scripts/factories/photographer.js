@@ -26,7 +26,7 @@ function photographerFactory(data) {
         a.appendChild(img);
         a.appendChild(h2); 
         article.appendChild(a);
-        article.tabIndex = "0";
+      
        
         const figcaption = document.createElement("figcation");
         figcaption.style.marginTop = "-30px"

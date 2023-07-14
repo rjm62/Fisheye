@@ -758,6 +758,12 @@ function openLightbox(selectedPictures) {
     for (var t=0; t<riri.length; t++) { 
         if (riri[t].src== selectedPictures.src) {  
             numberPictureInArray = t;
+            if(numberPictureInArray==0) {
+                previousIcon.style.display ="none";  
+            }
+            if(numberPictureInArray== riri.length-1) {
+                nextIcon.style.display ="none";  
+            }
         }
     } 
     picture.src = selectedPictures.src;
@@ -774,12 +780,7 @@ function openLightbox(selectedPictures) {
         } 
 
     lightboxMain.style.display = "block";
-    //document.querySelector("header").style.display = "none";
-    //document.querySelector(".photograph-header").style.display = "none";
-   // document.querySelector(".divSort").style.display = "none";
-    //document.querySelector(".photograph-media").style.display = "none";
-    //document.querySelector(".totalLikesAndTarif").style.display = "none";
-
+  
     const escape= 27;
     closeButton.addEventListener("click", lightBoxClose);
     event.stopImmediatePropagation();
