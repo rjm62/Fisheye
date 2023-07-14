@@ -27,7 +27,7 @@ async function init() {
     
     init();
 
-                  // PARAMETRES POUR RENDRE RESPONSIVE LA PAGE DES PHOTOGRAPHES
+/*                  // PARAMETRES POUR RENDRE RESPONSIVE LA PAGE DES PHOTOGRAPHES
 
   const bodySize = document.querySelector("body");
 bodySize.style.maxWidth ="1440px";
@@ -62,7 +62,7 @@ screenSize2.addEventListener('change', mobile);
       }
     }
 
-    
+   */ 
     
     
 

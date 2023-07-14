@@ -106,7 +106,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
                     // RECUPERATION PRENOM DU PHOTOGRAPHE POUR OUVERTURE DE SON DOSSIER MEDIA
     var photographNameRecovery = document.querySelector("h1").textContent; 
-    
+    console.log(photographNameRecovery);
     var lastSpace = photographNameRecovery.lastIndexOf(" ");
     var firstNameRecovery = photographNameRecovery.substring(0, lastSpace);
     var checkFirstName = firstNameRecovery.lastIndexOf("-");
@@ -590,7 +590,7 @@ const wrap3 = document.querySelector(".photograph-header");
 wrap3.style.flexWrap = "wrap";
 
 
-const screenSize3 = window.matchMedia( '(min-width : 1024px)' );
+/*const screenSize3 = window.matchMedia( '(min-width : 1024px)' );
 screenSize3.addEventListener('change', tablette2); 
 function tablette2(e) {
     const changeScreenSize3 = document.querySelector(".photograph-media");
@@ -614,7 +614,7 @@ function mobile2(e) {
     else {
         changeScreenSize4.style.gridTemplateColumns ="1fr 1fr";
     }
-}
+}*/
     
 //----------------------------------------LIGHTBOX-------------------------------------------------------------
 var numberPictureInArray;
