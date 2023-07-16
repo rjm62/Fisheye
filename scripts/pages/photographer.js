@@ -263,6 +263,8 @@ async function getMediasCard(mediasData,forDayPriceData) {
             mediaCards.className ="mediacards";
             mediaCards.style.display = "flex";
             mediaCards.style.flexDirection = "column";
+            mediaCards.tabIndex ="0";
+
             const img = document.createElement("img");
             img.style.cursor = "pointer";
             img.style.width="100%";

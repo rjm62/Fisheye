@@ -19,11 +19,12 @@ modalClose.addEventListener("keydown", function(event) {
 
 
 function displayModal() {
-    const modal = document.getElementById("contact_modal");
+  const modal = document.getElementById("contact_modal");
 	modal.style.display = "flex";
-  modal.ariaModal ="true";
+  modal.attr("aria-hidden", "false");
+  const main =document.getElementById("main");
+  main.attr("aria-hidden", "true");
 }
-
 
                     // POSITIONNEMENT DE LA MODALE
 const contactModalContainer = document.querySelector("#contact_modal");
@@ -125,10 +126,8 @@ formContainer.insertBefore(yourMessageDiv, modalButton);
 
 
 const formSize = document.querySelectorAll(".text-control");
-console.log(formSize);
 for(let i =0; i<formSize.length; i++) {
   formSize[i].style.fontSize = "40px";
-  console.log("ok");
 }
 
 const formSizeMessage = document.querySelector(".text-control_message");
@@ -253,6 +252,9 @@ event.preventDefault();
 function closeModal() {
   const modal = document.getElementById("contact_modal");
   modal.style.display = "none";
+  modal.attr("aria-hidden", "true");
+  const main = document.getElementById("main");
+  main.attr("aria-hidden", "false");
   if (sendDone==1){
     firstInput.value ="";
     lastInput.value =""; 
