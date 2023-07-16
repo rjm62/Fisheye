@@ -21,12 +21,9 @@ modalClose.addEventListener("keydown", function(event) {
 function displayModal() {
     const modal = document.getElementById("contact_modal");
 	modal.style.display = "flex";
+  modal.ariaModal ="true";
 }
 
-function closeModal() {
-    const modal = document.getElementById("contact_modal");
-    modal.style.display = "none";
-}
 
                     // POSITIONNEMENT DE LA MODALE
 const contactModalContainer = document.querySelector("#contact_modal");
@@ -139,6 +136,7 @@ formSizeMessage.style.fontSize = "1.9em";
 
 // VARIABLES POUR VERIFICATION DES CHAMPS 
 var check;
+var sendDone;
 var firstCheckResult;
 var lastCheckResult;
 var emailCheckResult;
@@ -228,6 +226,7 @@ if (firstCheckResult/1==1 & lastCheckResult/1==1 & emailCheckResult/1==1 & messa
 const formSend = document.getElementById("contact_button");
 formSend.addEventListener("click", send);
 
+
 function send(event) {
   //event.preventDefault();
   
@@ -238,6 +237,7 @@ event.preventDefault();
     console.log("nom:"+lastInput.value); 
     console.log("email:"+emailInput.value);
     console.log("message:"+yourMessageInput.value);
+    sendDone = 1;
   }
     else{
       firstCheck();
@@ -248,4 +248,15 @@ event.preventDefault();
 
     }
  
+}
+
+function closeModal() {
+  const modal = document.getElementById("contact_modal");
+  modal.style.display = "none";
+  if (sendDone==1){
+    firstInput.value ="";
+    lastInput.value =""; 
+    emailInput.value ="";
+    yourMessageInput.value ="";
+  }
 }

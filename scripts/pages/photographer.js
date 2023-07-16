@@ -248,7 +248,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
         openLightbox(clickphoto); 
         });
     });
-    popularityMenu();  
+        popularityMenu();     
 }
     
 //-------------------------------------------FIN DU MODULE DE TRI--------------------------------------    
@@ -581,41 +581,50 @@ function popularityMenu() {
 }
 
         //  MODULE POUR RENDRE RESPONSIVE LA PAGE
-const bodySize2 = document.querySelector("body");
-bodySize2.style.maxWidth ="1440px";
-bodySize2.style.margin = "auto";
-bodySize2.style.boxSizing ="border box";
+        const bodySize2 = document.querySelector("body");
+        bodySize2.style.maxWidth ="1440px";
+        bodySize2.style.margin = "auto";
+        bodySize2.style.boxSizing ="border box";
+        
+        const wrap3 = document.querySelector(".photograph-header");
+        wrap3.style.flexWrap = "wrap";
+        
+        
+        const screenSize3 = window.matchMedia( '(min-width : 1024px)' );
+        screenSize3.addEventListener('change', tablette2); 
+        function tablette2(e) {
+            const changeScreenSize3 = document.querySelector(".photograph-media");
+            const changeScreenHeader = document.querySelector(".photograph-header")
+            if(e.matches===false) {
+                changeScreenSize3.style.gridTemplateColumns ="1fr 1fr";
+                changeScreenHeader.style.flexWrap ="wrap-reverse";
+               changeScreenHeader.style.flexDirection ="row-reverse";
+                changeScreenHeader.style.justifyContent = "space-around";
+             
+            }
+            else {
+                changeScreenSize3.style.backgroundColor = "white"; 
+                changeScreenSize3.style.gridTemplateColumns ="1fr 1fr 1fr";
+            }
+        }
+        
+        const screenSize4 = window.matchMedia( '(min-width : 820px)' );
+        screenSize4.addEventListener('change', mobile2);
+        function mobile2(e) {
+            const changeScreenSize4 = document.querySelector(".photograph-media");
+            //const changeScreenHeader2 = document.querySelector(".photograph-header")
+            const changeScreenSizeSort =document.querySelector(".divSort")
+            if(e.matches===false) {
+                changeScreenSize4.style.gridTemplateColumns ="1fr";
+                //changeScreenSize4.style.flexWrap ="wrap";
+                //changeScreenSize4.style.gap = "0";
+                changeScreenSizeSort.style.marginLeft ="5px";
+            }
+            else {
+                changeScreenSize4.style.gridTemplateColumns ="1fr 1fr";
+            }
+        }
 
-const wrap3 = document.querySelector(".photograph-header");
-wrap3.style.flexWrap = "wrap";
-
-
-/*const screenSize3 = window.matchMedia( '(min-width : 1024px)' );
-screenSize3.addEventListener('change', tablette2); 
-function tablette2(e) {
-    const changeScreenSize3 = document.querySelector(".photograph-media");
-    if(e.matches===false) {
-        changeScreenSize3.style.backgroundColor = "yellow";
-        changeScreenSize3.style.gridTemplateColumns ="1fr 1fr";
-    }
-    else {
-        changeScreenSize3.style.backgroundColor = "white"; 
-        changeScreenSize3.style.gridTemplateColumns ="1fr 1fr 1fr";
-    }
-}
-
-const screenSize4 = window.matchMedia( '(min-width : 820px)' );
-screenSize4.addEventListener('change', mobile2);
-function mobile2(e) {
-    const changeScreenSize4 = document.querySelector(".photograph-media");
-    if(e.matches===false) {
-        changeScreenSize4.style.gridTemplateColumns ="1fr";
-    }
-    else {
-        changeScreenSize4.style.gridTemplateColumns ="1fr 1fr";
-    }
-}*/
-    
 //----------------------------------------LIGHTBOX-------------------------------------------------------------
 var numberPictureInArray;
 const lightboxMain = document.createElement("div");
@@ -745,23 +754,21 @@ lightboxMain.appendChild(figcaption);
  let body = document.querySelector("body");
  body.appendChild(lightboxMain);
 
-
-
-function openLightbox(selectedPictures) {
-    let riri = document.querySelectorAll(".mediacards img, .mediacards video");
+ function openLightbox(selectedPictures) {       // fonction pour ouverture Lightbox avec la "media" choisie
+    let mediasContainer = document.querySelectorAll(".mediacards img, .mediacards video");
     document.querySelector("header").style.display = "none";
     document.querySelector(".photograph-header").style.display = "none";
     document.querySelector(".divSort").style.display = "none";
     document.querySelector(".photograph-media").style.display = "none";
     document.querySelector(".totalLikesAndTarif").style.display = "none";
 
-    for (var t=0; t<riri.length; t++) { 
-        if (riri[t].src== selectedPictures.src) {  
+    for (var t=0; t<mediasContainer.length; t++) { 
+        if (mediasContainer[t].src== selectedPictures.src) {  
             numberPictureInArray = t;
             if(numberPictureInArray==0) {
                 previousIcon.style.display ="none";  
             }
-            if(numberPictureInArray== riri.length-1) {
+            if(numberPictureInArray== mediasContainer.length-1) {
                 nextIcon.style.display ="none";  
             }
         }
@@ -772,7 +779,7 @@ function openLightbox(selectedPictures) {
     let text = document.querySelectorAll(".mediacards figcaption");
     figcaption.textContent = text[numberPictureInArray].innerText;
     
-    if(riri[numberPictureInArray].nodeName =="VIDEO") {
+    if(mediasContainer[numberPictureInArray].nodeName =="VIDEO") {
         video.controls = "controls";
      }
          else {
@@ -790,7 +797,7 @@ function openLightbox(selectedPictures) {
         }
     });
 
-    function lightBoxClose() {
+    function lightBoxClose() {                    // fermeture de la lightbox
         lightboxMain.style.display = "none";
         document.querySelector("header").style.display = "flex";
         document.querySelector(".photograph-header").style.display = "flex";
@@ -809,9 +816,9 @@ function openLightbox(selectedPictures) {
         }
     });
 
-    function previousMedia() {
+    function previousMedia() {               // fonction appel du "media" précédent
         event.stopImmediatePropagation();
-        let titi =document.querySelectorAll(".mediacards img, .mediacards video");
+        let mediasForPrevious =document.querySelectorAll(".mediacards img, .mediacards video");
         
         if( numberPictureInArray!=0) { 
             nextIcon.style.display ="flex";
@@ -819,11 +826,11 @@ function openLightbox(selectedPictures) {
             if(numberPictureInArray==0) {
                 previousIcon.style.display ="none";  
             }
-            picture.src = titi[numberPictureInArray].src;
-            video.src = titi[numberPictureInArray].src;
+            picture.src = mediasForPrevious[numberPictureInArray].src;
+            video.src = mediasForPrevious[numberPictureInArray].src;
             let text = document.querySelectorAll(".mediacards figcaption");
             figcaption.textContent = text[numberPictureInArray].innerText;
-            if(titi[numberPictureInArray].nodeName == "VIDEO") {
+            if(mediasForPrevious[numberPictureInArray].nodeName == "VIDEO") {
                 video.controls = "controls";
             }
             else {
@@ -843,21 +850,21 @@ function openLightbox(selectedPictures) {
         }
     });
 
-    function nextMedia() {
+    function nextMedia() {             // fonction appel du "media" suivant           
         event.stopImmediatePropagation();
-        let titi =document.querySelectorAll(".mediacards img, .mediacards video");
+        let mediasForNext =document.querySelectorAll(".mediacards img, .mediacards video");
         
-        if( numberPictureInArray <titi.length) { 
+        if( numberPictureInArray <mediasForNext.length) { 
             previousIcon.style.display ="flex";
             numberPictureInArray += 1;
-            if(numberPictureInArray== titi.length-1) {
+            if(numberPictureInArray== mediasForNext.length-1) {
                 nextIcon.style.display ="none";  
             }
-            picture.src = titi[numberPictureInArray].src;
-            video.src = titi[numberPictureInArray].src;
+            picture.src = mediasForNext[numberPictureInArray].src;
+            video.src = mediasForNext[numberPictureInArray].src;
             let text = document.querySelectorAll(".mediacards figcaption");
             figcaption.textContent = text[numberPictureInArray].innerText;
-            if(titi[numberPictureInArray].nodeName =="VIDEO") {
+            if(mediasForNext[numberPictureInArray].nodeName =="VIDEO") {
                 video.controls = "controls";
             }
             else {
@@ -866,4 +873,3 @@ function openLightbox(selectedPictures) {
         }
     }
 }
-
