@@ -139,12 +139,12 @@ async function getMediasCard(mediasData,forDayPriceData) {
 
 
  //-------------------------------------------------- MODULE DE TRI---------------------------------------------------------
-             // initialisation du tri à "Popularité" (à l'ouverture de la page du photographe)
+           //initialisation du tri à "Popularité" (à l'ouverture de la page du photographe)
     if(initialSort==0) {           // initialisation du tri à "Popularité" (à l'ouverture de la page du photographe) 
-        initialSort=1;
-        likesSort();
+       likesSort();
         popularityWindow.style.display = "none";
     }
+
     var textOfThePosition=0;
     var positionTwo = document.querySelector(".positionTwo");    // "ecoute" si click dans le conteneur déroulant sur "positionTwo"
     positionTwo.addEventListener("click", recoveryBeforeSort1);
@@ -238,8 +238,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
     function display(mediaCardsArray) {               // fonction pour réorganiser l'affichage des mediascards en fonction du tri demandé
         var containerDateOrder =document.querySelector(".photograph-media");
         mediaCardsArray.forEach(function(card) {
-            containerDateOrder.appendChild(card);
-            initialSort=1;                           // suppression de la demande prioritaire de tri par popularité                                                    
+        containerDateOrder.appendChild(card);                                                   
         card.addEventListener("click", function(event) {
         var clickphoto = event.target; 
         event.stopImmediatePropagation();
@@ -248,9 +247,9 @@ async function getMediasCard(mediasData,forDayPriceData) {
         openLightbox(clickphoto); 
         });
     });
-        popularityMenu();     
-}
-    
+        popularityMenu(initialSort); 
+        initialSort=1;    
+}   
 //-------------------------------------------FIN DU MODULE DE TRI--------------------------------------    
 
 
@@ -565,8 +564,11 @@ popularityClick.addEventListener("keydown", function(event) {
     }
 });
 
-function popularityMenu() {
-    if(getComputedStyle(popularityWindow).display !="none") {
+function popularityMenu(originSort) {
+    if(originSort==0){
+        openIcon.className ="fa-solid fa-chevron-down"; 
+    }
+    else if(getComputedStyle(popularityWindow).display !="none") {
         popularityWindow.style.display = "none";
         openIcon.className ="fa-solid fa-chevron-down";
         divPopularity.style.borderBottomLeftRadius= "5px";
