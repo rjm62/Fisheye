@@ -254,7 +254,7 @@ event.preventDefault();
     } 
 }
 
-function closeModal() {
+function closeModal() {                    // fermeture modale
   const modal = document.getElementById("contact_modal");
   modal.style.display = "none";
   //modal.attr("aria-hidden", "true");
