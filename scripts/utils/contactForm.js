@@ -12,18 +12,25 @@ var modalClose = document.querySelector (".modal header img");
 modalClose.tabIndex="0";
 modalClose.addEventListener("click", closeModal);
 modalClose.addEventListener("keydown", function(event) {
-  if(event.keyCode== ESCAPE) {
+  if(event.keyCode== ESCAPE ||event.keyCode== RETURN) {
     closeModal();
   }
 });
 
-
 function displayModal() {
   const modal = document.getElementById("contact_modal");
 	modal.style.display = "flex";
-  modal.attr("aria-hidden", "false");
+  modal.tabIndex ="-1";
+  modal.setAttribute("aria-hidden", "false");
+  modal.role = "dialog";
+  modal.focus();
   const main =document.getElementById("main");
-  main.attr("aria-hidden", "true");
+  main.setAttribute("aria-hidden", "true");
+  main.tabIndex = "-1";
+  document.body.style.position = 'fixed';
+  document.body.style.marginLeft= '150px';
+  const input = document.querySelector("#first");
+  input.focus();
 }
 
                     // POSITIONNEMENT DE LA MODALE
@@ -244,17 +251,19 @@ event.preventDefault();
       emailCheck();
       yourMessageCheck();
       document.querySelector(".modal form #contact_button").textContent = "compléter avant envoi";
-
-    }
- 
+    } 
 }
 
 function closeModal() {
   const modal = document.getElementById("contact_modal");
   modal.style.display = "none";
-  modal.attr("aria-hidden", "true");
+  //modal.attr("aria-hidden", "true");
+  modal.ariaHidden ="true";
   const main = document.getElementById("main");
-  main.attr("aria-hidden", "false");
+  //main.attr("aria-hidden", "false");
+  main.ariaHidden ="false";
+document.body.style.position = '';
+document.body.style.top = '';
   if (sendDone==1){
     firstInput.value ="";
     lastInput.value =""; 
