@@ -23,6 +23,16 @@ function displayModal() {
   modal.tabIndex ="-1";
   modal.setAttribute("aria-hidden", "false");
   modal.role = "dialog";
+
+  let readStop1 =document.querySelector(".photograph-header");
+  let readStop2 = document.querySelector(".mediacards");
+  let readStop3 = document.querySelector ("body header");
+  readStop1.setAttribute("aria-hidden", "true");
+  readStop2.setAttribute("aria-hidden", "true");
+  readStop3.setAttribute("aria-hidden", "true");
+
+
+
   modal.focus();
   const main =document.getElementById("main");
   main.setAttribute("aria-hidden", "true");

@@ -307,9 +307,12 @@ async function getMediasCard(mediasData,forDayPriceData) {
             likesContainer.style.verticalAlign="center";
             likesContainer.style.justifyContent = "space-between";
 
-            const likesNumber = document.createElement("p");                 // ajout du nombre de "likes"
+            const likesNumber = document.createElement("h5");                 // ajout du nombre de "likes"
             likesNumber.className = "likesNumber";
             likesNumber.textContent = elementsArray[j].likes;
+            likesNumber.role ="dialog";
+            likesNumber.ariaLabel ="likes";
+
 
             likesToAdd = elementsArray[j].likes;
             likesSum += likesToAdd;
@@ -480,6 +483,7 @@ sortChoice.textContent = "Popularité";
 
 const openIcon = document.createElement("li");
 openIcon.className = "chevronIcon";
+openIcon.ariaCurrent="true"
 openIcon.style.display = "flex";
 openIcon.style.justifyContent ="center";
 openIcon.style.width = "30%";
