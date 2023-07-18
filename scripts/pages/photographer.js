@@ -105,8 +105,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
     var photographerId = window.location.search.split("?").join("");
 
                     // RECUPERATION PRENOM DU PHOTOGRAPHE POUR OUVERTURE DE SON DOSSIER MEDIA
-    var photographNameRecovery = document.querySelector("h1").textContent; 
-    console.log(photographNameRecovery);
+    var photographNameRecovery = document.querySelector("h1").textContent;
     var lastSpace = photographNameRecovery.lastIndexOf(" ");
     var firstNameRecovery = photographNameRecovery.substring(0, lastSpace);
     var checkFirstName = firstNameRecovery.lastIndexOf("-");

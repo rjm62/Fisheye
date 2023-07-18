@@ -20,7 +20,7 @@ modalClose.addEventListener("keydown", function(event) {
 function displayModal() {
   const modal = document.getElementById("contact_modal");
 	modal.style.display = "flex";
-  modal.tabIndex ="-1";
+  modal.tabIndex ="0";
   modal.setAttribute("aria-hidden", "false");
   modal.role = "dialog";
 
@@ -30,9 +30,6 @@ function displayModal() {
   readStop1.setAttribute("aria-hidden", "true");
   readStop2.setAttribute("aria-hidden", "true");
   readStop3.setAttribute("aria-hidden", "true");
-
-
-
   modal.focus();
   const main =document.getElementById("main");
   main.setAttribute("aria-hidden", "true");
@@ -42,6 +39,26 @@ function displayModal() {
   const input = document.querySelector("#first");
   input.focus();
 }
+const TAB =9;
+const testContactButton = document.getElementById("contact_button");
+testContactButton.addEventListener("focus",function() {
+testContactButton.setAttribute("value","1");
+console.log("ok");
+});
+
+ testContactButton.addEventListener("keydown",function(event) {
+  if(event.keyCode==TAB && testContactButton.value==1) {
+  console.log("bein ça marche!!");
+  testContactButton.setAttribute("value", "0")
+  const inputX = document.querySelector(".modal header h2");
+  testContactButton.setAttribute("aria-hidden", "true");
+  testContactButton.setAttribute("aria-hidden", "false");
+  inputX.focus();
+  
+
+  }
+  
+});
 
                     // POSITIONNEMENT DE LA MODALE
 const contactModalContainer = document.querySelector("#contact_modal");
@@ -263,6 +280,7 @@ event.preventDefault();
       document.querySelector(".modal form #contact_button").textContent = "compléter avant envoi";
     } 
 }
+
 
 function closeModal() {                    // fermeture modale
   const modal = document.getElementById("contact_modal");
