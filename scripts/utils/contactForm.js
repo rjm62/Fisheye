@@ -1,4 +1,4 @@
-// MISE EN PLACE ECOUTES POUR OUVERTURE ET FERMETURE MODAL
+//--------------------- MISE EN PLACE DES ECOUTES POUR OUVERTURE ET FERMETURE MODAL---------------------------------
 const RETURN= 13;
 var modalOpen = document.querySelector(".photograph-header > .contact_button"); 
 modalOpen.addEventListener("click", displayModal);
@@ -39,26 +39,37 @@ function displayModal() {
   const input = document.querySelector("#first");
   input.focus();
 }
-const TAB =9;
-const testContactButton = document.getElementById("contact_button");
-testContactButton.addEventListener("focus",function() {
-testContactButton.setAttribute("value","1");
-console.log("ok");
-});
+//-----------Fin de la mise en place des écoutes pour ouvertures et fermeture de la modale----------------
 
+ //---------------mise en boucle de l'accessibilité clavier par touche "TAB"---------------------------
+const TAB =9;
+const testContactButton = document.getElementById("contact_button");  // ci dessous  si "TAB" après touche "ENVOYER" redirection sur croix"
+testContactButton.addEventListener("focus",function() {
+  testContactButton.setAttribute("value","1");
+});
  testContactButton.addEventListener("keydown",function(event) {
   if(event.keyCode==TAB && testContactButton.value==1) {
-  console.log("bein ça marche!!");
-  testContactButton.setAttribute("value", "0")
-  const inputX = document.querySelector(".modal header h2");
-  testContactButton.setAttribute("aria-hidden", "true");
-  testContactButton.setAttribute("aria-hidden", "false");
-  inputX.focus();
-  
-
-  }
-  
+    testContactButton.setAttribute("value", "0")
+    const inputX = document.querySelector(".modal header h2");
+    inputX.focus();
+    if (event.shiftKey) {
+      testContactButton.focus();
+    }
+  }   
 });
+
+const testButtonClose = document.querySelector(".modal header img"); // ci dessous si "MAJ+TAB" sur la croix, retour dans bas du formulaire
+testButtonClose.addEventListener("focus", function() {
+});
+testButtonClose.addEventListener("keydown", function(event) {
+ if(event.keyCode==TAB ) {
+  if(event.shiftKey) {
+    testContactButton.focus();
+  }
+ }
+});
+   //--------------fin de la mise en place de la boucle pour accessibilité clavier dans modale----------
+
 
                     // POSITIONNEMENT DE LA MODALE
 const contactModalContainer = document.querySelector("#contact_modal");
@@ -261,8 +272,6 @@ formSend.addEventListener("click", send);
 
 
 function send(event) {
-  //event.preventDefault();
-  
 event.preventDefault();
 
   if (firstCheckResult/1==1 & lastCheckResult/1==1 & emailCheckResult/1==1 & messageCheckResult =="1") {
