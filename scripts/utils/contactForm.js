@@ -16,7 +16,7 @@ modalClose.addEventListener("keydown", function(event) {
     closeModal();
   }
 });
-
+                 //fonction ouverture de la modale
 function displayModal() {
   const modal = document.getElementById("contact_modal");
 	modal.style.display = "flex";
@@ -34,7 +34,7 @@ function displayModal() {
   const main =document.getElementById("main");
   main.setAttribute("aria-hidden", "true");
   main.tabIndex = "-1";
-  document.body.style.position = 'fixed';
+ // document.body.style.position = 'fixed';
   document.body.style.marginLeft= '150px';
   const input = document.querySelector("#first");
   input.focus();
