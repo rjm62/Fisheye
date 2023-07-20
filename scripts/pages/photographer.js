@@ -42,7 +42,8 @@ for(let i=0; i<photographersData.length; i++) {
         figcaption.style.flexDirection ="column";
         figcaption.style.alignItems ="start";
         figcaption.style.paddingLeft = "0";
-
+        figcaption.tabIndex ="0";
+ 
         const name = document.createElement("h1");                 // ajout du nom du photographe 
         name.textContent = (photographElementsArray.name);
         name.style.fontSize = "60px";
@@ -233,18 +234,28 @@ async function getMediasCard(mediasData,forDayPriceData) {
         }   
         display(listeOrdonneeTitle);
     }
-
+   
     function display(mediaCardsArray) {               // fonction pour réorganiser l'affichage des mediascards en fonction du tri demandé
         var containerDateOrder =document.querySelector(".photograph-media");
         mediaCardsArray.forEach(function(card) {
         containerDateOrder.appendChild(card);                                                   
-        card.addEventListener("click", function(event) {
+        card.addEventListener("click", function(event) {    // ecoute d'un click souris pour ouvrir lightbox
         var clickphoto = event.target; 
+        console.log(clickphoto);
         event.stopImmediatePropagation();
-    
         containerDateOrder =document.querySelector(".photograph-media");
         openLightbox(clickphoto); 
         });
+
+        card.addEventListener("keydown", function(event) {  // ecoute touche "ENTREE" (sur élément sélectionné)  pour ouvrir lightbox
+            if(event.keyCode == ENTER) {
+            var keydown = event.target; 
+            let keydownPhoto =keydown.childNodes[0];
+            console.log(keydownPhoto);
+            openLightbox(keydownPhoto); 
+            }
+        });
+
     });
         popularityMenu(initialSort); 
         initialSort=1;    
@@ -306,12 +317,9 @@ async function getMediasCard(mediasData,forDayPriceData) {
             likesContainer.style.verticalAlign="center";
             likesContainer.style.justifyContent = "space-between";
 
-            const likesNumber = document.createElement("h5");                 // ajout du nombre de "likes"
+            const likesNumber = document.createElement("p");                 // ajout du nombre de "likes"
             likesNumber.className = "likesNumber";
             likesNumber.textContent = elementsArray[j].likes;
-            likesNumber.role ="dialog";
-            likesNumber.ariaLabel ="likes";
-
 
             likesToAdd = elementsArray[j].likes;
             likesSum += likesToAdd;
@@ -322,6 +330,9 @@ async function getMediasCard(mediasData,forDayPriceData) {
             heartContainer.style.alignItems = "center";
             heartContainer.className = "heart"+[j] ;
             heartContainer.value = [j];
+            heartContainer.role ="dialog";
+            heartContainer.ariaLabel ="like";
+
 
             const heart = document.createElement("li");
             heart.className = "fa-regular fa-heart";
@@ -369,7 +380,8 @@ async function getMediasCard(mediasData,forDayPriceData) {
          totalLikesAndTarif.style.position = "fixed";
          totalLikesAndTarif.style.zIndex = "3";
          totalLikesAndTarif.style.bottom = "0";
-         totalLikesAndTarif.style.right = "20px"
+         totalLikesAndTarif.style.right = "20px";
+         //totalLikesAndTarif.tabIndex ="1";
 
         const divLikesAndHeart = document.createElement("div");  //conteneur pour total des "likes" + icone du coeur (ci-dessous)
         divLikesAndHeart.style.display = "flex";
@@ -381,10 +393,13 @@ async function getMediasCard(mediasData,forDayPriceData) {
         likesTotal.innerHTML ="";
         likesTotal.textContent = likesSum;
         likesTotal.style.paddingRight = "4px";
+        likesTotal.tabIndex ="0";
         divLikesAndHeart.appendChild(likesTotal);
 
         const heart = document.createElement("li");             // "li" pour icone du coeur
         heart.className = "fa-solid fa-heart";
+        heart.tabIndex ="0";
+        heart.ariaLabel = "like";
         divLikesAndHeart.appendChild(heart);
         
         totalLikesAndTarif.appendChild(divLikesAndHeart);      
@@ -392,6 +407,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
         const photographerDayPrice = document.createElement("p");   // création du conteneur <p> pour le tarif à la journée  
         photographerDayPrice.textContent = dayPrice+"€ / jour" ;
         totalLikesAndTarif.appendChild(photographerDayPrice);
+        totalLikesAndTarif.tabIndex = "0";
         
         document.querySelector("#main").appendChild(totalLikesAndTarif);  // intégration de ce conteneur dans "main"
 
@@ -431,7 +447,7 @@ function likesModified(eventHeartClicked, photographHeartsArray) {
         const recoveryQuantity = document.querySelector(".likesTotal");    //récupération conteneur
         let newQuantity = recoveryQuantity.innerHTML;          //récupération quantité
         newQuantity = parseInt(newQuantity) + 1;
-        recoveryQuantity.innerText = newQuantity;                       //aumentation de 1 
+        recoveryQuantity.innerText = newQuantity;                      //aumentation de 1 
     }
 
     async function retryAuTotal() {                            // fonction diminuer le total de "likes" en bas écran   
@@ -458,6 +474,7 @@ divSort.style.fontWeight = "bold";
 const comment = document.createElement("p");        // creation de "p" pour texte: "Trier par"
 comment.textContent = "Trier par";
 comment.style.paddingRight = "30px";
+comment.tabIndex = "0";
 
 const divPopularityContainer = document.createElement("div");
 divPopularityContainer.style.display ="flex";
@@ -473,6 +490,7 @@ divPopularity.style.width = "180px";
 divPopularity.style.backgroundColor = "#901C1C";
 divPopularity.style.color = "white";
 divPopularity.style.borderRadius= "5px";
+divPopularity.tabIndex ="0";
 const sortChoice = document.createElement("p");
 sortChoice.className = "positionOne";
 sortChoice.style.display ="flex";
@@ -674,6 +692,7 @@ closeButton.style.cursor ="pointer";
 closeButton.style.background = "white";
 closeButton.style.border = "none";
 closeButton.style.cursor = "pointer";
+closeButton.ariaLabel = "fermeture lightbox";
 const closeIcon = document.createElement("li");
 closeIcon.className = "fa-solid fa-xmark";
 closeIcon.style.fontSize = "50px";
@@ -692,7 +711,8 @@ previousButton.style.color = "#901C1C";
 previousButton.style.cursor = "pointer";
 previousButton.style.backgroundColor ="white";
 previousButton.style.border = "none";
-previousButton.tabIndex ="0";
+previousButton.tabIndex ="1";
+previousButton.ariaLabel = "photo précédente"
 const previousIcon = document.createElement("li");
 previousIcon.className = "previousIcon"
 previousIcon.className = "fa-solid fa-chevron-left";
@@ -715,7 +735,8 @@ nextButton.style.color = "#901C1C";
 nextButton.style.cursor = "pointer";
 nextButton.style.backgroundColor ="white";
 nextButton.style.border = "none";
-nextButton.tabIndex = "0";
+nextButton.tabIndex = "1";
+nextButton.ariaLabel ="photo suivante";
 
 const nextIcon = document.createElement("li");
 nextIcon.className = "fa-solid fa-chevron-right";
@@ -728,6 +749,7 @@ pictureContainer.style.display ="flex";
 pictureContainer.style.width = "100%";
 pictureContainer.style.maxHeight = "900px";
 pictureContainer.style.backgroundColor = "black";
+pictureContainer.tabIndex = "0";
 
 const video = document.createElement("video");
 video.style.objectFit = "contain";
@@ -745,6 +767,7 @@ figcaption.style.marginLeft = "50px";
 figcaption.style.marginTop = "20px";
 figcaption.style.fontSize = "25px";
 figcaption.style.color = "#901C1C";
+figcaption.tabIndex ="0";
 
 closeButton.appendChild(closeIcon);
 pictureContainer.appendChild(picture);
@@ -880,3 +903,8 @@ lightboxMain.appendChild(figcaption);
         }
     }
 }
+
+/*const elements = document.querySelectorAll("*");    // 3 lignes pour intégrer "TABINDEX=0" à toutes les balises
+for(let i=0; i<elements.length; i++) {
+  elements[i].setAttribute("tabindex", "0");
+}*/

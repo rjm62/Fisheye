@@ -39,7 +39,7 @@ function displayModal() {
   const input = document.querySelector("#first");
   input.focus();
 }
-//-----------Fin de la mise en place des écoutes pour ouvertures et fermeture de la modale----------------
+//-----------Fin de la mise en place des écoutes pour ouverture et fermeture de la modale----------------
 
  //---------------mise en boucle de l'accessibilité clavier par touche "TAB"---------------------------
 const TAB =9;

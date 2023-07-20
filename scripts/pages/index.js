@@ -27,6 +27,11 @@ async function init() {
     
     init();
 
+  /*const elements = document.querySelectorAll("*");    // 3 lignes pour intégrer "TABINDEX=0" à toutes les balises
+  for(let i=0; i<elements.length; i++) {
+    elements[i].setAttribute("tabindex", "0");
+  }*/
+
 /*                  // PARAMETRES POUR RENDRE RESPONSIVE LA PAGE DES PHOTOGRAPHES
 
   const bodySize = document.querySelector("body");
