@@ -16,7 +16,8 @@ modalClose.addEventListener("keydown", function(event) {
     closeModal();
   }
 });
-                 //fonction ouverture de la modale
+
+//--------------------------------------OUVERTURE DE LA MODALE------------------------------------------
 function displayModal() {
   const modal = document.getElementById("contact_modal");
 	modal.style.display = "flex";
@@ -39,9 +40,8 @@ function displayModal() {
   const input = document.querySelector("#first");
   input.focus();
 }
-//-----------Fin de la mise en place des écoutes pour ouverture et fermeture de la modale----------------
 
- //---------------mise en boucle de l'accessibilité clavier par touche "TAB"---------------------------
+ //------------------------MISE EN BOUCLE ACCESSIBILITE PAR TOUCHE  "TAB"-----------------------------------
 const TAB =9;
 const testContactButton = document.getElementById("contact_button");  // ci dessous  si "TAB" après touche "ENVOYER" redirection sur croix"
 testContactButton.addEventListener("focus",function() {
@@ -68,10 +68,8 @@ testButtonClose.addEventListener("keydown", function(event) {
   }
  }
 });
-   //--------------fin de la mise en place de la boucle pour accessibilité clavier dans modale----------
 
-
-                    // POSITIONNEMENT DE LA MODALE
+  //------------------------------ POSITIONNEMENT DE LA MODALE--------------------------------------
 const contactModalContainer = document.querySelector("#contact_modal");
 contactModalContainer.style.flexDirection = "row";
 contactModalContainer.style.justifyContent = "center";
@@ -89,7 +87,7 @@ paddingTopHeader.style.paddingTop = "0";
 
 
 
-      //  AJOUT DE ClASSES MANQUANTES (OU AFIN D'AIDER DANS LA CONCEPTION DU FORMULAIRE)
+      //-----------------------------CONCEPTION DU FORMULAIRE)-------------------------------------------
 
 const formContainer = document.querySelector("form"); 
 
@@ -178,7 +176,7 @@ for(let i =0; i<formSize.length; i++) {
 const formSizeMessage = document.querySelector(".text-control_message");
 formSizeMessage.style.fontSize = "1.9em";
 
-// VARIABLES POUR VERIFICATION DES CHAMPS 
+//--------------------------------VERIFICATION DES CHAMPS ------------------------------------------
 var check;
 var sendDone;
 var firstCheckResult;
@@ -200,7 +198,7 @@ yourMessage.addEventListener("change", yourMessageCheck);
 
 
   function firstCheck() { 
-  let regFirst=new RegExp("^[a-z][a-z\-_]+$", "i");        //verification prénom
+  let regFirst=new RegExp("^[a-z][a-z\-_]+$", "i");        //verification prénom (expression correcte mais mal interprétée par ES LINT)
   check = firstInput.value;
   firstCheckResult=(regFirst.test(check));
   if (firstCheckResult/1==1) {
@@ -215,7 +213,7 @@ yourMessage.addEventListener("change", yourMessageCheck);
 }
 
   function lastCheck() {
-  let regLast=new RegExp("^[a-z][a-z\-_]+$", "i");        //verification prénom
+  let regLast=new RegExp("^[a-z][a-z\-_]+$", "i");    //verification prénom (expression correcte mais mal interprétée par ES LINT)
   check = lastInput.value;
   lastCheckResult=(regLast.test(check));
   if (lastCheckResult/1==1) {
@@ -231,7 +229,7 @@ yourMessage.addEventListener("change", yourMessageCheck);
 
 
   function emailCheck() {
-    let regEmail=new RegExp("^[a-z0-9\.\-_]+[a-z0-9]*@[a-z0-9]{2,}\.[a-z\.\-_]+[a-z\-_]{2,}$", "i");
+    let regEmail=new RegExp("^[a-z0-9\.\-_]+[a-z0-9]*@[a-z0-9]{2,}\.[a-z\.\-_]+[a-z\-_]{2,}$", "i"); //correct mais mal interprété par ES LINT
     check = emailInput.value;
     emailCheckResult= (regEmail.test(check));
     if (emailCheckResult/1==1) {
@@ -290,8 +288,8 @@ event.preventDefault();
     } 
 }
 
-
-function closeModal() {                    // fermeture modale
+//------------------------------------------FERMETURE MODALE----------------------------------------------
+function closeModal() {                   
   const modal = document.getElementById("contact_modal");
   modal.style.display = "none";
   //modal.attr("aria-hidden", "true");

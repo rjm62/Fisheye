@@ -17,11 +17,8 @@ async function init() {
         
                 // REALISATION DU HEADER DU PHOTOGRAPHE
 async function getHeaderCard(photographersData) {
-//const {id, name, portrait, city, country, tagline, price} = photographersData; 
-
 var photographerId = window.location.search.split("?").join("");
-
-  
+ 
 for(let i=0; i<photographersData.length; i++) {
     let photographElementsArray = photographersData[i];
     let photographerElement =photographElementsArray.id;
@@ -93,14 +90,11 @@ for(let i=0; i<photographersData.length; i++) {
         }
     }
 }
-
-
-           // FIN DE LA PARTIE REALISATION DU HEADER
-
-
-                    // MISE EN PLACE DES PHOTOS DU PHOTOGRAPHE
+ // -------------------------FIN DE LA PARTIE REALISATION DU HEADER-------------------------------------------
+ 
+ // -------------------------PRESENTATION DES PHOTOS DU PHOTOGRAPHE--------------------------------------------
 async function getMediasCard(mediasData,forDayPriceData) {
-    //const {id, photographersId, title, image,video,likes,date,price} = mediasData;
+    
     var forDayPrice = forDayPriceData;
     var mediasElementArray = mediasData;
     var photographerId = window.location.search.split("?").join("");
@@ -135,11 +129,10 @@ async function getMediasCard(mediasData,forDayPriceData) {
     }
     genererMediaCards(photographerArray);
 
+ // ------------------------FIN DE LA PRESENTATION DES PHOTOS DU PHOTOGRAPHE--------------------------------------------
 
 
-
- //-------------------------------------------------- MODULE DE TRI---------------------------------------------------------
-           //initialisation du tri à "Popularité" (à l'ouverture de la page du photographe)
+ //---------------------------------------------- MODULE DE TRI---------------------------------------------------------   
     if(initialSort==0) {           // initialisation du tri à "Popularité" (à l'ouverture de la page du photographe) 
        likesSort();
         popularityWindow.style.display = "none";
@@ -153,7 +146,6 @@ async function getMediasCard(mediasData,forDayPriceData) {
             recoveryBeforeSort1();  
         }
     });
-
     function recoveryBeforeSort1() {
         textOfThePosition = positionTwo.textContent; 
         textContentModificationAndSortAsk(positionTwo);  
@@ -166,7 +158,6 @@ async function getMediasCard(mediasData,forDayPriceData) {
             recoveryBeforeSort2();
         }
     });
-
     function recoveryBeforeSort2() {
         textOfThePosition = positionThree.textContent; 
         textContentModificationAndSortAsk(positionThree);  
@@ -177,7 +168,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
         let previousActualSort = actualSort.textContent;        // on stocke dans une variable la valeur récupérée précédemment
         actualSort.textContent= textOfThePosition;              // on met à coté de "TRIER PAR" le texte du bouton cliqué
         position.textContent=previousActualSort;                // et maintenant on met à l'endroit cliqué le text du précédent tri
-        switch(actualSort.textContent) {                  // en fonction du texte cliqué on appelle la fonction demandée
+        switch(actualSort.textContent) {               // suivant texte cliqué on appelle la fonction demandée
             case "Date":
                 dateSort();          // fonction pour trier par date
                 break;
@@ -187,8 +178,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
             case "Popularité":
                 likesSort();         // fonction pour trier par "likes"
                 break;
-        }
-        
+        }        
     }
 
     function likesSort() {
@@ -365,7 +355,7 @@ async function getMediasCard(mediasData,forDayPriceData) {
             }              
         }
 
-                      // creation du conteneur de bas de page avec nombre de "likes" et coût à la jounée.
+// creation du conteneur de bas de page avec nombre de "likes" et coût à la jounée
          const totalLikesAndTarif = document.createElement("div");
          totalLikesAndTarif.className = "totalLikesAndTarif";
          totalLikesAndTarif.style.display = "flex";
@@ -381,7 +371,6 @@ async function getMediasCard(mediasData,forDayPriceData) {
          totalLikesAndTarif.style.zIndex = "3";
          totalLikesAndTarif.style.bottom = "0";
          totalLikesAndTarif.style.right = "20px";
-         //totalLikesAndTarif.tabIndex ="1";
 
         const divLikesAndHeart = document.createElement("div");  //conteneur pour total des "likes" + icone du coeur (ci-dessous)
         divLikesAndHeart.style.display = "flex";
@@ -411,13 +400,13 @@ async function getMediasCard(mediasData,forDayPriceData) {
         
         document.querySelector("#main").appendChild(totalLikesAndTarif);  // intégration de ce conteneur dans "main"
 
-    }                              // fin de ce conteneur               
+    }   
+    //------------------------------------DEBUT DE REALISATION DES MEDIAS DU PHOTOGRAPHE--------------------------            
 }
 
 init();
 
-
-    // FONCTION POUR RECUPERER L'EMPLACEMENT DU COEUR CLIQUE ET MODIFICATION DU NOMBRE DE "LIKES" ET DU TOTAL EN BAS DE L'ECRAN
+//---- FONCTION POUR RECUPERER L'EMPLACEMENT DU COEUR CLIQUE ET MODIFICATION DU NOMBRE DE "LIKES" ET DU TOTAL EN BAS DE L'ECRAN
 function likesModified(eventHeartClicked, photographHeartsArray) {
     let positionHeartClicked = eventHeartClicked.value;
               
@@ -458,7 +447,7 @@ function likesModified(eventHeartClicked, photographHeartsArray) {
     }
 }                        // FIN DE CETTE PARTIE
 
-         // REALISATION DE STRUCTURER HTML DE "TRI PAR: POPULARITE - TITRE - DATE" )
+//----------------- REALISATION DE STRUCTURER HTML DE "TRI PAR: POPULARITE - TITRE - DATE" )-------------------------------------
 const divSort = document.createElement("div");       // création div générale
 divSort.className = "divSort";
 divSort.style.display = "flex";
@@ -554,7 +543,7 @@ popularityWindow.appendChild(dateSort);
 popularityWindow.appendChild(titleSort);
  
 
-        // CHANGEMENT DE L'ASPECT DU BOUTON "CONTACTEZ-MOI" AU SURVOL DE LA SOURIS
+//-------------------------- CHANGEMENT DE L'ASPECT DU BOUTON "CONTACTEZ-MOI" AU SURVOL DE LA SOURIS-----------------------
 const buttonMouseover = document.querySelector(".contact_button");
 buttonMouseover.addEventListener("mouseover", function(){
     buttonMouseover.style.backgroundColor="#D3573C";
@@ -568,8 +557,7 @@ buttonMouseout.addEventListener("mouseout", function(){
 });
 
 
-        // RETOUR A LA PAGE PRINCIPALE EN CLIQUANT SUR LE LOGO
-//const addClassName = document.querySelector("body header");
+// -----------------------RETOUR A LA PAGE PRINCIPALE EN CLIQUANT SUR LE LOGO--------------------------
 const mainPageReturn = document.querySelector("body header img");  
 mainPageReturn.style.cursor ="pointer";    
 mainPageReturn.addEventListener("click", function(){
@@ -577,7 +565,7 @@ mainPageReturn.addEventListener("click", function(){
 });
 
 
-        // OUVERTURE DE LA FENETRE DE POPULARITE
+//------------------------------ OUVERTURE DE LA FENETRE DE POPULARITE----------------------------------
 const ENTER =13;
 const popularityClick = document.querySelector("li");
 popularityClick.addEventListener("click", popularityMenu);
@@ -605,7 +593,7 @@ function popularityMenu(originSort) {
     }
 }
 
-        //  MODULE POUR RENDRE RESPONSIVE LA PAGE
+//-----------MODULE POUR RENDRE RESPONSIVE (non terminé car responsive non demandé dans le projet)----------------------------
         const bodySize2 = document.querySelector("body");
         bodySize2.style.maxWidth ="1440px";
         bodySize2.style.margin = "auto";
@@ -637,12 +625,9 @@ function popularityMenu(originSort) {
         screenSize4.addEventListener('change', mobile2);
         function mobile2(e) {
             const changeScreenSize4 = document.querySelector(".photograph-media");
-            //const changeScreenHeader2 = document.querySelector(".photograph-header")
             const changeScreenSizeSort =document.querySelector(".divSort")
             if(e.matches===false) {
                 changeScreenSize4.style.gridTemplateColumns ="1fr";
-                //changeScreenSize4.style.flexWrap ="wrap";
-                //changeScreenSize4.style.gap = "0";
                 changeScreenSizeSort.style.marginLeft ="5px";
             }
             else {
@@ -854,7 +839,8 @@ lightboxMain.appendChild(figcaption);
             nextIcon.style.display ="flex";
             numberPictureInArray -= 1;
             if(numberPictureInArray==0) {
-                previousIcon.style.display ="none";  
+                previousIcon.style.display ="none";
+                previousButton.tabIndex ="-1"  
             }
             picture.src = mediasForPrevious[numberPictureInArray].src;
             video.src = mediasForPrevious[numberPictureInArray].src;
@@ -888,7 +874,8 @@ lightboxMain.appendChild(figcaption);
             previousIcon.style.display ="flex";
             numberPictureInArray += 1;
             if(numberPictureInArray== mediasForNext.length-1) {
-                nextIcon.style.display ="none";  
+                nextIcon.style.display ="none"; 
+                nextButton.tabIndex = "-1";
             }
             picture.src = mediasForNext[numberPictureInArray].src;
             video.src = mediasForNext[numberPictureInArray].src;
@@ -903,8 +890,3 @@ lightboxMain.appendChild(figcaption);
         }
     }
 }
-
-/*const elements = document.querySelectorAll("*");    // 3 lignes pour intégrer "TABINDEX=0" à toutes les balises
-for(let i=0; i<elements.length; i++) {
-  elements[i].setAttribute("tabindex", "0");
-}*/
