@@ -278,6 +278,7 @@ event.preventDefault();
     console.log("email:"+emailInput.value);
     console.log("message:"+yourMessageInput.value);
     sendDone = 1;
+    closeModal();
   }
     else{
       firstCheck();
