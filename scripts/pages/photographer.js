@@ -558,11 +558,11 @@ buttonMouseout.addEventListener("mouseout", function(){
 
 
 // -----------------------RETOUR A LA PAGE PRINCIPALE EN CLIQUANT SUR LE LOGO--------------------------
-const mainPageReturn = document.querySelector("body header img");  
-mainPageReturn.style.cursor ="pointer";    
-mainPageReturn.addEventListener("click", function(){
-    history.back();
-});
+// const mainPageReturn = document.querySelector("body header img");  
+// mainPageReturn.style.cursor ="pointer";    
+// mainPageReturn.addEventListener("click", function(){
+//     history.back();
+// });
 
 
 //------------------------------ OUVERTURE DE LA FENETRE DE POPULARITE----------------------------------
@@ -865,6 +865,29 @@ lightboxMain.appendChild(figcaption);
 
         }
     });
+
+
+    const bodyLightBox = document.querySelector("body")
+    bodyLightBox.addEventListener("click", nextMedia); 
+    event.stopImmediatePropagation();
+    bodyLightBox.addEventListener("keydown", function(event) {
+        if( event.keyCode=== rightArrow) {
+            event.stopImmediatePropagation();      
+            nextMedia();
+        }
+
+        if( event.keyCode=== leftArrow) {
+            event.stopImmediatePropagation();      
+            previousMedia();
+        }
+
+        if( event.keyCode== escape) {
+            event.stopImmediatePropagation();  
+            lightBoxClose();
+        }
+    });
+
+
 
     function nextMedia() {             // fonction appel du "media" suivant           
         event.stopImmediatePropagation();

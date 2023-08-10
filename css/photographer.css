@@ -45,7 +45,7 @@ body {
     margin-bottom: 0;
 }
 
-.modal header img {
+.modal header a {
     cursor: pointer;
 }
 
